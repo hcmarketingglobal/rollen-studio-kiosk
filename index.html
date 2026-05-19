@@ -183,7 +183,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
       </div>
       <div class="card">
         <div class="streak-row">
-          <div><div class="streak-num" id="streak-num">0🔥</div><div class="streak-label">Semanas seguidas</div></div>
+          <div><div class="streak-num" id="streak-num">0🔥</div><div class="streak-label">Días seguidos</div></div>
           <div style="flex:1;padding-left:16px;">
             <div style="font-size:12px;color:var(--rs-grey);margin-bottom:8px;" id="streak-msg"></div>
             <div class="streak-dots" id="streak-dots"></div>
@@ -243,12 +243,16 @@ function formatDate(d){if(!d)return'—';const[y,m,day]=d.split('-');const month
 function isBirthday(c){if(!c.birthday)return false;const today=new Date();const[,bm,bd]=c.birthday.split('-');return parseInt(bm)===(today.getMonth()+1)&&parseInt(bd)===today.getDate();}
 function getStreak(history){
   if(!history||!history.length)return 0;
-  const getWeek=d=>{const dt=new Date(d);const jan1=new Date(dt.getFullYear(),0,1);return Math.ceil(((dt-jan1)/86400000+jan1.getDay()+1)/7);};
-  const getYearWeek=d=>{const dt=new Date(d);return dt.getFullYear()*100+getWeek(d);};
-  const weeks=[...new Set(history.map(getYearWeek))].sort((a,b)=>b-a);
-  if(!weeks.length)return 0;
-  let streak=1;
-  for(let i=1;i<weeks.length;i++){if(weeks[i-1]-weeks[i]===1)streak++;else break;}
+  const days=[...new Set(history)].sort((a,b)=>b.localeCompare(a));
+  if(!days.length)return 0;
+  const today=new Date();today.setHours(0,0,0,0);
+  const msDay=86400000;
+  let streak=0;
+  for(let i=0;i<days.length;i++){
+    const d=new Date(days[i]);d.setHours(0,0,0,0);
+    const diff=Math.round((today-d)/msDay);
+    if(diff===i)streak++;else break;
+  }
   return streak;
 }
 function getMonthVisits(history){
@@ -259,8 +263,8 @@ function getMonthVisits(history){
 function getMotivation(c){
   const p=c.points,streak=getStreak(c.history||[]);
   if(isBirthday(c))return{text:'¡Hoy es tu dia especial! Gracias por ser parte de Rollen Studio.',sub:'El equipo te celebra'};
-  if(streak>=4)return{text:'Eres una maquina! '+streak+' semanas seguidas sin parar.',sub:'La consistencia es tu superpoder'};
-  if(streak>=2)return{text:'Llevas '+streak+' semanas seguidas. Sigue asi!',sub:'La rutina construye resultados'};
+  if(streak>=10)return{text:'Eres una maquina! '+streak+' dias seguidos sin parar.',sub:'La consistencia es tu superpoder'};
+  if(streak>=3)return{text:'Llevas '+streak+' dias seguidos. Sigue asi!',sub:'La rutina construye resultados'};
   if(p>=50)return{text:'Eres de nuestros clientes mas dedicados. Se nota el esfuerzo!',sub:p+' visitas hablan por si solas'};
   if(p>=20)return{text:'Ya desbloqueaste tu primer descuento. Sigue acumulando!',sub:'El siguiente nivel esta a tu alcance'};
   if(p>=10)return{text:'Vas muy bien, '+c.name+'. '+(20-p)+' visitas mas para tu primer descuento!',sub:'Cada clase cuenta'};
@@ -293,7 +297,7 @@ function showProfile(client,showCheckin){
   rb.innerHTML=reward?'<div class="reward-disc">'+reward.pct+'</div><div class="reward-label">descuento activo</div>':'<div class="no-reward-lbl">Sin descuento<br>aun</div>';
   const streak=getStreak(client.history||[]);
   document.getElementById('streak-num').textContent=streak+'🔥';
-  document.getElementById('streak-msg').textContent=streak>=1?'Llevas '+streak+' semana'+(streak!==1?'s':'')+' viniendo seguido!':'Ven esta semana para empezar tu racha';
+  document.getElementById('streak-msg').textContent=streak>=1?'Llevas '+streak+' dia'+(streak!==1?'s':'')+' consecutivos. Sigue asi!':'Ven hoy para empezar tu racha';
   const dotsEl=document.getElementById('streak-dots');
   const now=new Date();
   const dayNames=['L','M','X','J','V','S','D'];
