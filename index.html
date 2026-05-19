@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rollen Studio — Rewards</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--rs-black:#030303;--rs-blue:#2D45EA;--rs-grey:#A5A5A5;--rs-white:#FFFFFF;--rs-card:#161616;--rs-card-border:rgba(255,255,255,0.07)}
+body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var(--rs-white);min-height:100vh}
+.kiosk{max-width:680px;margin:0 auto;padding:0;min-height:100vh;background:var(--rs-black)}
+.screen{display:none}
+.screen.active{display:flex;flex-direction:column}
+.idle-screen{min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden}
+.idle-bg-circle{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,69,234,0.15) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.idle-logo{font-size:11px;letter-spacing:4px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:3rem;font-weight:400}
+.idle-title{font-size:48px;font-weight:700;letter-spacing:-1px;line-height:1.05;color:var(--rs-white);margin-bottom:1rem}
+.idle-title span{color:var(--rs-blue)}
+.idle-sub{font-size:15px;color:var(--rs-grey);margin-bottom:3rem;font-weight:300;letter-spacing:0.3px}
+.idle-input-wrap{display:flex;max-width:340px;margin:0 auto 1.5rem;border:1px solid rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;transition:border-color 0.2s}
+.idle-input-wrap:focus-within{border-color:var(--rs-blue)}
+.idle-input{flex:1;background:rgba(255,255,255,0.05);border:none;outline:none;padding:16px 20px;font-size:20px;color:var(--rs-white);font-family:'Space Grotesk',sans-serif;letter-spacing:2px;text-align:center}
+.idle-input::placeholder{color:rgba(255,255,255,0.25);letter-spacing:1px;font-size:15px}
+.idle-btn{background:var(--rs-white);border:none;padding:0 24px;cursor:pointer;color:var(--rs-black);font-size:20px;font-weight:700;transition:background 0.15s}
+.idle-btn:hover{background:#e0e0e0}
+.idle-error{font-size:13px;color:#ff4f4f;margin-bottom:1rem;display:none;letter-spacing:0.3px}
+.reward-tease{display:flex;justify-content:center;gap:20px;margin-top:2.5rem;flex-wrap:wrap}
+.reward-tease-item{text-align:center;padding:16px 20px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;min-width:100px}
+.reward-tease-item .visits{font-size:28px;font-weight:700;color:var(--rs-blue)}
+.reward-tease-item .visits-label{font-size:10px;color:var(--rs-grey);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.reward-tease-item .disc{font-size:13px;color:var(--rs-white);font-weight:500;margin-top:4px}
+.profile-screen{min-height:100vh;flex-direction:column}
+.profile-header{background:var(--rs-blue);padding:2rem 2rem 1.5rem}
+.profile-header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem}
+.profile-brand{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase}
+.back-btn{background:rgba(0,0,0,0.25);border:none;color:white;padding:6px 14px;border-radius:2px;font-size:12px;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:1px}
+.back-btn:hover{background:rgba(0,0,0,0.4)}
+.profile-name{font-size:36px;font-weight:700;letter-spacing:-0.5px;line-height:1.1;color:var(--rs-white);margin-bottom:4px}
+.profile-id{font-size:12px;color:rgba(255,255,255,0.6);letter-spacing:2px}
+.profile-body{padding:1.5rem 2rem;flex:1}
+.points-card{background:var(--rs-card);border:1px solid var(--rs-card-border);border-radius:4px;padding:1.5rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.points-num{font-size:64px;font-weight:700;letter-spacing:-2px;color:var(--rs-white);line-height:1}
+.points-label{font-size:10px;letter-spacing:3px;color:var(--rs-grey);text-transform:uppercase;margin-top:4px}
+.current-reward-disc{font-size:32px;font-weight:700;color:var(--rs-blue)}
+.current-reward-label{font-size:10px;color:var(--rs-grey);letter-spacing:2px;text-transform:uppercase}
+.no-reward-label{font-size:12px;color:var(--rs-grey);letter-spacing:1px;text-align:right}
+.progress-section{background:var(--rs-card);border:1px solid var(--rs-card-border);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase}
+.progress-next{font-size:12px;color:var(--rs-white);font-weight:500}
+.progress-track{height:3px;background:rgba(255,255,255,0.1);overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;background:var(--rs-blue);transition:width 0.6s cubic-bezier(0.4,0,0.2,1)}
+.progress-sub{font-size:12px;color:var(--rs-grey)}
+.rewards-section{background:var(--rs-card);border:1px solid var(--rs-card-border);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.rewards-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:1rem}
+.reward-row{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.reward-row:last-child{border-bottom:none}
+.reward-row.earned .reward-row-visits{color:var(--rs-blue)}
+.reward-row.earned .reward-row-disc{color:var(--rs-white)}
+.reward-row-visits{font-size:22px;font-weight:700;color:rgba(255,255,255,0.2);min-width:44px}
+.reward-row-info{flex:1}
+.reward-row-disc{font-size:15px;font-weight:600;color:rgba(255,255,255,0.3)}
+.reward-row-sub{font-size:11px;color:var(--rs-grey);margin-top:2px}
+.reward-row-status{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px}
+.status-earned{background:rgba(45,69,234,0.2);color:var(--rs-blue)}
+.status-locked{background:rgba(255,255,255,0.05);color:var(--rs-grey)}
+.history-section{background:var(--rs-card);border:1px solid var(--rs-card-border);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.history-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:1rem}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px}
+.history-item:last-child{border-bottom:none}
+.history-date{color:var(--rs-grey)}
+.history-pts{color:var(--rs-blue);font-weight:600}
+.checkin-confirm{background:var(--rs-white);border-radius:4px;padding:1.25rem 1.5rem;display:none;align-items:center;justify-content:space-between;gap:12px;margin-bottom:1rem}
+.checkin-confirm.show{display:flex}
+.checkin-confirm-text{font-size:14px;font-weight:600;color:var(--rs-black)}
+.checkin-confirm-sub{font-size:12px;color:#555;margin-top:2px}
+.confirm-btn{background:var(--rs-blue);color:#fff;border:none;padding:12px 24px;border-radius:2px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:0.5px;white-space:nowrap;transition:background 0.15s}
+.confirm-btn:hover{background:#1e32c8}
+.success-banner{background:#0d1a0d;border:1px solid rgba(0,200,80,0.3);border-radius:4px;padding:1rem 1.5rem;font-size:14px;color:#4dff88;margin-bottom:1rem;display:none;text-align:center;letter-spacing:0.5px}
+.success-banner.show{display:block}
+</style>
+</head>
+<body>
+<div class="kiosk">
+  <div id="screen-idle" class="screen active idle-screen">
+    <div class="idle-bg-circle"></div>
+    <div class="idle-logo">Rollen Studio — Rewards</div>
+    <div class="idle-title">Tu estudio.<br>Tus <span>beneficios</span>.</div>
+    <div class="idle-sub">Ingresa tu número de usuario para ver tus puntos</div>
+    <div class="idle-input-wrap">
+      <input class="idle-input" id="idle-input" type="text" placeholder="Número de usuario" maxlength="20" onkeydown="if(event.key==='Enter') doLookup()" />
+      <button class="idle-btn" onclick="doLookup()">→</button>
+    </div>
+    <div class="idle-error" id="idle-error">Usuario no encontrado. Intenta de nuevo.</div>
+    <div class="reward-tease">
+      <div class="reward-tease-item"><div class="visits-label">Visitas</div><div class="visits">20</div><div class="disc">10% desc.</div></div>
+      <div class="reward-tease-item"><div class="visits-label">Visitas</div><div class="visits">50</div><div class="disc">15% desc.</div></div>
+      <div class="reward-tease-item"><div class="visits-label">Visitas</div><div class="visits">100</div><div class="disc">20% desc.</div></div>
+    </div>
+  </div>
+
+  <div id="screen-profile" class="screen profile-screen">
+    <div class="profile-header">
+      <div class="profile-header-top">
+        <div class="profile-brand">Rollen Studio</div>
+        <button class="back-btn" onclick="goBack()">← Salir</button>
+      </div>
+      <div class="profile-name" id="p-name">—</div>
+      <div class="profile-id" id="p-id">—</div>
+    </div>
+    <div class="profile-body">
+      <div class="success-banner" id="success-banner"></div>
+      <div class="checkin-confirm" id="checkin-confirm">
+        <div>
+          <div class="checkin-confirm-text">¿Registrar visita de hoy?</div>
+          <div class="checkin-confirm-sub">Se sumará +1 punto a tu cuenta</div>
+        </div>
+        <button class="confirm-btn" onclick="confirmCheckin()">Confirmar visita</button>
+      </div>
+      <div class="points-card">
+        <div><div class="points-num" id="p-points">0</div><div class="points-label">Visitas totales</div></div>
+        <div id="p-reward-block"></div>
+      </div>
+      <div class="progress-section" id="p-progress-section">
+        <div class="progress-header">
+          <span class="progress-title">Próximo nivel</span>
+          <span class="progress-next" id="p-progress-next"></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="p-progress-fill"></div></div>
+        <div class="progress-sub" id="p-progress-sub"></div>
+      </div>
+      <div class="rewards-section">
+        <div class="rewards-title">Recompensas</div>
+        <div class="reward-row" id="rr-20"><div class="reward-row-visits">20</div><div class="reward-row-info"><div class="reward-row-disc">10% de descuento</div><div class="reward-row-sub">En reservas y paquetes</div></div><span class="reward-row-status" id="rs-20"></span></div>
+        <div class="reward-row" id="rr-50"><div class="reward-row-visits">50</div><div class="reward-row-info"><div class="reward-row-disc">15% de descuento</div><div class="reward-row-sub">En reservas y paquetes</div></div><span class="reward-row-status" id="rs-50"></span></div>
+        <div class="reward-row" id="rr-100"><div class="reward-row-visits">100</div><div class="reward-row-info"><div class="reward-row-disc">20% de descuento</div><div class="reward-row-sub">En reservas y paquetes</div></div><span class="reward-row-status" id="rs-100"></span></div>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Últimas visitas</div>
+        <div id="p-history"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY='rollen_clients_v2';
+let clients=[],activeClient=null;
+function loadData(){
+  try{const r=localStorage.getItem(STORAGE_KEY);if(r)clients=JSON.parse(r);}catch(e){clients=[];}
+  if(!clients.length){
+    clients=[
+      {id:'1001',name:'Ana',lastname:'García',email:'ana@correo.com',phone:'664 100 0001',points:22,lastVisit:'2026-05-15',history:['2026-05-15','2026-05-10','2026-05-03']},
+      {id:'1002',name:'Carlos',lastname:'Mendez',email:'carlos@correo.com',phone:'664 100 0002',points:54,lastVisit:'2026-05-17',history:['2026-05-17','2026-05-14','2026-05-11']},
+      {id:'1003',name:'Sofía',lastname:'Ruiz',email:'sofia@correo.com',phone:'664 100 0003',points:8,lastVisit:'2026-05-10',history:['2026-05-10','2026-05-05']},
+    ];
+    saveData();
+  }
+}
+function saveData(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(clients));}catch(e){}}
+function fullName(c){return c.lastname?c.name+' '+c.lastname:c.name;}
+function getReward(p){if(p>=100)return'20%';if(p>=50)return'15%';if(p>=20)return'10%';return null;}
+function progressPct(p){if(p>=100)return 100;if(p>=50)return Math.round(((p-50)/50)*100);if(p>=20)return Math.round(((p-20)/30)*100);return Math.round((p/20)*100);}
+function getNextInfo(p){if(p<20)return{next:20,label:'10% descuento',remaining:20-p};if(p<50)return{next:50,label:'15% descuento',remaining:50-p};if(p<100)return{next:100,label:'20% descuento',remaining:100-p};return null;}
+function formatDate(d){if(!d)return'—';const[y,m,day]=d.split('-');const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return day+' '+months[parseInt(m)-1]+' '+y;}
+function doLookup(){
+  const val=document.getElementById('idle-input').value.trim();
+  const err=document.getElementById('idle-error');
+  err.style.display='none';
+  if(!val)return;
+  const client=clients.find(c=>c.id===val);
+  if(!client){err.style.display='block';return;}
+  activeClient=client;
+  showProfile(client,true);
+}
+function showProfile(client,showCheckin){
+  document.getElementById('screen-idle').classList.remove('active');
+  document.getElementById('screen-profile').classList.add('active');
+  document.getElementById('p-name').textContent=fullName(client);
+  document.getElementById('p-id').textContent='Usuario #'+client.id;
+  document.getElementById('p-points').textContent=client.points;
+  const reward=getReward(client.points);
+  const rb=document.getElementById('p-reward-block');
+  rb.innerHTML=reward
+    ?'<div class="current-reward-disc">'+reward+'</div><div class="current-reward-label">descuento activo</div>'
+    :'<div class="no-reward-label">Sin descuento<br>aún</div>';
+  const next=getNextInfo(client.points);
+  const ps=document.getElementById('p-progress-section');
+  if(next){
+    ps.style.display='block';
+    document.getElementById('p-progress-next').textContent=next.label;
+    document.getElementById('p-progress-fill').style.width=progressPct(client.points)+'%';
+    document.getElementById('p-progress-sub').textContent='Faltan '+next.remaining+' visita'+(next.remaining!==1?'s':'')+' para tu próximo nivel';
+  }else{ps.style.display='none';}
+  [20,50,100].forEach(t=>{
+    const row=document.getElementById('rr-'+t),badge=document.getElementById('rs-'+t);
+    if(client.points>=t){row.classList.add('earned');badge.className='reward-row-status status-earned';badge.textContent='Activo';}
+    else{row.classList.remove('earned');badge.className='reward-row-status status-locked';badge.textContent='Bloqueado';}
+  });
+  const hist=document.getElementById('p-history');
+  const visits=client.history||(client.lastVisit?[client.lastVisit]:[]);
+  hist.innerHTML=visits.length
+    ?visits.slice(0,6).map(d=>'<div class="history-item"><span class="history-date">'+formatDate(d)+'</span><span class="history-pts">+1 punto</span></div>').join('')
+    :'<div style="font-size:13px;color:#A5A5A5;padding:8px 0;">Sin visitas registradas aún</div>';
+  const confirm=document.getElementById('checkin-confirm');
+  const success=document.getElementById('success-banner');
+  success.classList.remove('show');
+  if(showCheckin){
+    const today=new Date().toISOString().split('T')[0];
+    const alreadyToday=(client.history||[]).includes(today)||client.lastVisit===today;
+    if(alreadyToday){confirm.classList.remove('show');success.textContent='✓ Ya registraste tu visita hoy. ¡Gracias por venir!';success.classList.add('show');}
+    else{confirm.classList.add('show');}
+  }else{confirm.classList.remove('show');}
+}
+function confirmCheckin(){
+  if(!activeClient)return;
+  const c=clients.find(x=>x.id===activeClient.id);
+  const today=new Date().toISOString().split('T')[0];
+  c.points++;c.lastVisit=today;
+  if(!c.history)c.history=[];
+  c.history.unshift(today);
+  saveData();activeClient=c;
+  document.getElementById('checkin-confirm').classList.remove('show');
+  const sb=document.getElementById('success-banner');
+  sb.textContent='✓ Visita registrada. Ahora tienes '+c.points+' punto'+(c.points!==1?'s':'')+'. ¡Gracias!';
+  sb.classList.add('show');
+  showProfile(c,false);
+  setTimeout(goBack,5000);
+}
+function goBack(){
+  activeClient=null;
+  document.getElementById('screen-profile').classList.remove('active');
+  document.getElementById('screen-idle').classList.add('active');
+  document.getElementById('idle-input').value='';
+  document.getElementById('idle-error').style.display='none';
+}
+loadData();
+</script>
+</body>
+</html>
