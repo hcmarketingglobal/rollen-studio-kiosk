@@ -110,13 +110,34 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 .history-item:last-child{border-bottom:none}
 .history-date{color:var(--rs-grey)}
 .history-pts{color:var(--rs-blue);font-weight:600}
+.login-screen{min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden}
+.login-box{position:relative;z-index:1}
+.login-sub{font-size:13px;color:var(--rs-grey);margin-bottom:2rem;letter-spacing:0.5px}
+.google-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#333;border:none;padding:14px 28px;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background 0.15s;width:280px}
+.google-btn:hover{background:#f0f0f0}
+.login-error{font-size:12px;color:#ff4f4f;margin-top:14px;display:none}
+.login-bg{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,69,234,0.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 </style>
 </head>
 <body>
 <div class="kiosk">
 
+  <!-- LOGIN -->
+  <div id="screen-login" class="screen active login-screen">
+    <div class="login-bg"></div>
+    <div class="login-box">
+      <img src="https://hcmarketingglobal.github.io/rollen-studio-kiosk/rollen%20rewards%20logo.png" alt="Rollen Studio" style="height:86px;width:auto;object-fit:contain;display:block;margin:0 auto 2rem;">
+      <div class="login-sub">Inicia sesión para abrir el kiosko</div>
+      <button class="google-btn" onclick="window.doGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continuar con Google
+      </button>
+      <div class="login-error" id="login-error"></div>
+    </div>
+  </div>
+
   <!-- IDLE -->
-  <div id="screen-idle" class="screen active idle-screen">
+  <div id="screen-idle" class="screen idle-screen">
     <div class="idle-bg"></div>
     <img src="https://hcmarketingglobal.github.io/rollen-studio-kiosk/rollen%20rewards%20logo.png" alt="Rollen Studio" style="height:86px;width:auto;object-fit:contain;display:block;margin:0 auto 1.5rem;position:relative;">
     
@@ -170,6 +191,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDJqCQQNKPnvyj8I6dGGoNkSeKbwcmaOXU",
@@ -182,7 +204,37 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+const ALLOWED_EMAILS = ['luis@hcmarketing.mx', 'admin@rollen.mx'];
 let activeClient = null;
+
+// Check auth state
+onAuthStateChanged(auth, (user) => {
+  if (user && ALLOWED_EMAILS.includes(user.email)) {
+    document.getElementById('screen-login').classList.remove('active');
+    document.getElementById('screen-idle').classList.add('active');
+    document.getElementById('login-error').style.display = 'none';
+  } else if (user) {
+    // Wrong account
+    auth.signOut();
+    document.getElementById('login-error').textContent = 'Correo no autorizado. Usa luis@hcmarketing.mx o admin@rollen.mx';
+    document.getElementById('login-error').style.display = 'block';
+  } else {
+    document.getElementById('screen-idle').classList.remove('active');
+    document.getElementById('screen-profile').classList.remove('active');
+    document.getElementById('screen-login').classList.add('active');
+  }
+});
+
+window.doGoogleLogin = async function(){
+  try {
+    await signInWithPopup(auth, provider);
+  } catch(e) {
+    document.getElementById('login-error').textContent = 'Error al iniciar sesión. Intenta de nuevo.';
+    document.getElementById('login-error').style.display = 'block';
+  }
+};
 
 function fullName(c){return c.lastname?c.name+' '+c.lastname:c.name;}
 function getReward(p){if(p>=100)return'20%';if(p>=50)return'15%';if(p>=20)return'10%';return null;}
