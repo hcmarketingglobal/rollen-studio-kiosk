@@ -6,7 +6,7 @@
 <title>Rollen Studio — Admin</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--black:#111;--grey:#888;--light-grey:#f7f7f7;--border:#e8e8e8;--blue:#2D45EA;--red:#e53e3e;--green:#38a169;--orange:#dd6b20}
+:root{--black:#111;--grey:#888;--light:#f7f7f7;--border:#e8e8e8;--blue:#2D45EA;--red:#e53e3e;--green:#38a169;--orange:#dd6b20}
 body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fff;color:var(--black);font-size:14px}
 .admin{max-width:960px;margin:0 auto}
 .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center}
@@ -22,6 +22,10 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fff;col
 .admin-screen.active{display:block}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:10}
 .topbar-brand{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.sync-status{font-size:11px;color:var(--grey)}
+.sync-status.ok{color:var(--green)}
+.sync-status.error{color:var(--red)}
 .logout-btn{font-size:12px;color:var(--grey);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline}
 .nav{display:flex;border-bottom:1px solid var(--border);padding:0 24px}
 .nav-btn{padding:11px 14px;border:none;background:none;font-size:13px;color:var(--grey);cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-1px}
@@ -35,7 +39,7 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fff;col
 .kpi-trend{font-size:12px;display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-weight:500}
 .trend-up{background:#f0fff4;color:var(--green)}
 .trend-down{background:#fff5f5;color:var(--red)}
-.trend-flat{background:var(--light-grey);color:var(--grey)}
+.trend-flat{background:var(--light);color:var(--grey)}
 .charts-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px}
 .chart-card{border:1px solid var(--border);border-radius:4px;padding:18px}
 .chart-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--grey);margin-bottom:16px}
@@ -47,16 +51,16 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fff;col
 .funnel{display:flex;flex-direction:column;gap:6px}
 .funnel-row{display:flex;align-items:center;gap:10px}
 .funnel-label{font-size:11px;color:var(--grey);width:80px;flex-shrink:0}
-.funnel-bar-wrap{flex:1;background:var(--light-grey);border-radius:2px;height:18px;overflow:hidden}
+.funnel-bar-wrap{flex:1;background:var(--light);border-radius:2px;height:18px;overflow:hidden}
 .funnel-bar-fill{height:100%;border-radius:2px}
-.funnel-count{font-size:12px;font-weight:500;color:var(--black);width:24px;text-align:right;flex-shrink:0}
+.funnel-count{font-size:12px;font-weight:500;width:24px;text-align:right;flex-shrink:0}
 .heatmap-grid{display:grid;grid-template-columns:28px repeat(7,1fr);gap:3px}
 .hm-label{font-size:9px;color:var(--grey);display:flex;align-items:center;justify-content:flex-end;padding-right:4px}
 .hm-day-label{font-size:10px;color:var(--grey);text-align:center;padding-bottom:2px}
-.hm-cell{height:22px;border-radius:2px;background:var(--light-grey)}
+.hm-cell{height:22px;border-radius:2px;background:var(--light)}
 .retention-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
 .ret-card{border:1px solid var(--border);border-radius:4px;padding:18px;text-align:center}
-.ret-val{font-size:36px;font-weight:300;letter-spacing:-1px;color:var(--black)}
+.ret-val{font-size:36px;font-weight:300;letter-spacing:-1px}
 .ret-label{font-size:11px;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
 .reports-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .report-card{border:1px solid var(--border);border-radius:4px;padding:18px}
@@ -67,12 +71,11 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#fff;col
 .badge-risk{background:#fff5f5;color:var(--red)}
 .badge-close{background:#fffbeb;color:var(--orange)}
 .badge-bday{background:#ebf4ff;color:var(--blue)}
-.badge-new{background:#f0fff4;color:var(--green)}
 .table-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px}
 .search-input{flex:1;max-width:260px;padding:8px 12px;border:1px solid var(--border);border-radius:3px;font-size:13px;font-family:inherit;outline:none}
 .search-input:focus{border-color:var(--black)}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:3px;border:1px solid var(--border);background:#fff;font-size:12px;color:var(--black);cursor:pointer;font-family:inherit;font-weight:500}
-.btn:hover{background:var(--light-grey)}
+.btn:hover{background:var(--light)}
 .btn.primary{background:var(--black);color:#fff;border-color:var(--black)}
 .btn.primary:hover{background:#333}
 .btn.danger{color:var(--red);border-color:#fecaca}
@@ -87,22 +90,22 @@ tr:hover td{background:#fafafa}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:100;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:#fff;border-radius:6px;border:1px solid var(--border);padding:24px;width:100%;max-width:460px;margin:1rem;max-height:90vh;overflow-y:auto}
-.modal h3{font-size:14px;font-weight:600;margin-bottom:18px;letter-spacing:0.3px}
+.modal h3{font-size:14px;font-weight:600;margin-bottom:18px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .form-group{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
 .form-group label{font-size:11px;font-weight:500;color:var(--grey);text-transform:uppercase;letter-spacing:0.5px}
-.form-group input{padding:8px 10px;border:1px solid var(--border);border-radius:3px;font-size:13px;font-family:inherit;outline:none}
-.form-group input:focus{border-color:var(--black)}
+.form-group input,.form-group select{padding:8px 10px;border:1px solid var(--border);border-radius:3px;font-size:13px;font-family:inherit;outline:none;width:100%}
+.form-group input:focus,.form-group select:focus{border-color:var(--black)}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
 .form-error{font-size:12px;color:var(--red);margin-bottom:8px;display:none}
-.client-detail-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px}
-.client-detail-row:last-child{border-bottom:none}
+.detail-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px}
+.detail-row:last-child{border-bottom:none}
 .detail-label{color:var(--grey)}
 .detail-val{font-weight:500}
 .discount-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f5f5f5}
 .discount-item:last-child{border-bottom:none}
 .drop-zone{border:2px dashed var(--border);border-radius:4px;padding:36px;text-align:center;cursor:pointer;transition:all 0.15s;margin-bottom:16px}
-.drop-zone:hover,.drop-zone.dragover{border-color:var(--black);background:var(--light-grey)}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--black);background:var(--light)}
 .drop-zone p{font-size:14px;color:var(--grey);margin-bottom:4px}
 .drop-zone span{font-size:12px;color:#bbb}
 .col-map{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
@@ -110,17 +113,19 @@ tr:hover td{background:#fafafa}
 .col-map-item select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:3px;font-size:13px;font-family:inherit;outline:none}
 .preview-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:3px;margin-top:10px}
 .preview-table{width:100%;border-collapse:collapse;font-size:12px}
-.preview-table th{padding:7px 10px;text-align:left;background:var(--light-grey);font-weight:500;color:var(--grey);border-bottom:1px solid var(--border)}
+.preview-table th{padding:7px 10px;text-align:left;background:var(--light);font-weight:500;color:var(--grey);border-bottom:1px solid var(--border)}
 .preview-table td{padding:7px 10px;border-bottom:1px solid #f0f0f0}
 .preview-table tr.dup td{background:#fff5f5;color:var(--red)}
 .import-chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .chip{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
 .chip-new{background:#f0fff4;color:var(--green)}
 .chip-dup{background:#fff5f5;color:var(--red)}
-.chip-skip{background:var(--light-grey);color:var(--grey)}
+.chip-skip{background:var(--light);color:var(--grey)}
 .import-result{font-size:13px;color:var(--green);margin-top:10px;display:none}
 .section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--grey);margin-bottom:12px;margin-top:20px}
 .section-title:first-child{margin-top:0}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #ddd;border-top-color:var(--black);border-radius:50%;animation:spin 0.7s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -137,7 +142,10 @@ tr:hover td{background:#fafafa}
   <div id="admin-screen" class="admin-screen">
     <div class="topbar">
       <div class="topbar-brand">Rollen Studio · Admin</div>
-      <button class="logout-btn" onclick="doLogout()">Cerrar sesión</button>
+      <div class="topbar-right">
+        <span class="sync-status" id="sync-status">● Conectando...</span>
+        <button class="logout-btn" onclick="doLogout()">Cerrar sesión</button>
+      </div>
     </div>
     <div class="nav">
       <button class="nav-btn active" onclick="showTab('dashboard')">Dashboard</button>
@@ -146,12 +154,7 @@ tr:hover td{background:#fafafa}
       <button class="nav-btn" onclick="showTab('reports')">Reportes</button>
     </div>
     <div class="content">
-      <div id="tab-dashboard" class="tab">
-        <div class="kpi-grid" id="kpi-grid"></div>
-        <div class="retention-row" id="retention-row"></div>
-        <div class="charts-row" id="charts-row"></div>
-        <div class="reports-row" id="dash-reports"></div>
-      </div>
+      <div id="tab-dashboard" class="tab"><div class="kpi-grid" id="kpi-grid"></div><div class="retention-row" id="retention-row"></div><div class="charts-row" id="charts-row"></div><div class="reports-row" id="dash-reports"></div></div>
       <div id="tab-clients" class="tab" style="display:none">
         <div class="table-toolbar">
           <input type="text" class="search-input" id="client-search" placeholder="Buscar nombre, usuario, correo..." oninput="renderClients()" />
@@ -160,10 +163,7 @@ tr:hover td{background:#fafafa}
             <button class="btn primary" onclick="openAddModal()">+ Agregar</button>
           </div>
         </div>
-        <table>
-          <thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Plan</th><th>Vence</th><th>Puntos</th><th>Descuento</th><th>Última visita</th><th></th></tr></thead>
-          <tbody id="clients-tbody"></tbody>
-        </table>
+        <table><thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Plan</th><th>Vence</th><th>Puntos</th><th>Descuento</th><th>Última visita</th><th></th></tr></thead><tbody id="clients-tbody"></tbody></table>
         <div id="clients-empty" class="empty-state" style="display:none">No se encontraron clientes</div>
       </div>
       <div id="tab-import" class="tab" style="display:none">
@@ -175,16 +175,16 @@ tr:hover td{background:#fafafa}
         <div id="import-mapping" style="display:none">
           <div class="section-title">Mapeo de columnas</div>
           <div class="col-map">
-            <div class="col-map-item"><label>Número de usuario *</label><select id="map-uid"></select></div>
+            <div class="col-map-item"><label>ID / Usuario *</label><select id="map-uid"></select></div>
             <div class="col-map-item"><label>Nombre *</label><select id="map-name"></select></div>
             <div class="col-map-item"><label>Apellido</label><select id="map-lastname"></select></div>
             <div class="col-map-item"><label>Correo</label><select id="map-email"></select></div>
             <div class="col-map-item"><label>Teléfono</label><select id="map-phone"></select></div>
             <div class="col-map-item"><label>Cumpleaños</label><select id="map-birthday"></select></div>
-            <div class="col-map-item"><label>Puntos iniciales</label><select id="map-points"></select></div>
-            <div class="col-map-item"><label>Plan / Paquete</label><select id="map-plan"></select></div>
+            <div class="col-map-item"><label>Plan</label><select id="map-plan"></select></div>
             <div class="col-map-item"><label>Activación</label><select id="map-activacion"></select></div>
             <div class="col-map-item"><label>Vencimiento</label><select id="map-vencimiento"></select></div>
+            <div class="col-map-item"><label>Puntos iniciales</label><select id="map-points"></select></div>
           </div>
           <button class="btn primary" onclick="previewImport()">Vista previa</button>
         </div>
@@ -195,20 +195,17 @@ tr:hover td{background:#fafafa}
           <p style="font-size:11px;color:var(--grey);margin-top:8px">Filas en rojo ya existen y serán omitidas.</p>
           <div style="display:flex;gap:8px;margin-top:12px">
             <button class="btn" onclick="resetImport()">← Cambiar archivo</button>
-            <button class="btn primary" onclick="executeImport()">Importar clientes nuevos</button>
+            <button class="btn primary" id="import-btn" onclick="executeImport()">Importar clientes nuevos</button>
           </div>
           <div class="import-result" id="import-result"></div>
         </div>
         <div style="border:1px solid var(--border);border-radius:4px;padding:16px;margin-top:16px">
           <div style="font-size:11px;font-weight:600;color:var(--grey);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Ejemplo de CSV válido</div>
-          <pre style="font-size:12px;color:var(--grey);background:var(--light-grey);padding:12px;border-radius:3px;overflow-x:auto;line-height:1.7">usuario,nombre,apellido,correo,telefono,cumpleanos
-1001,Ana,Garcia,ana@correo.com,6641000001,1995-05-19
-1002,Carlos,Mendez,carlos@correo.com,6641000002,1990-08-22</pre>
+          <pre style="font-size:12px;color:var(--grey);background:var(--light);padding:12px;border-radius:3px;overflow-x:auto;line-height:1.7">ID,NOMBRE,APELLIDO,CORREO,TELÉFONO,PLAN,ACTIVACIÓN,VENCIMIENTO
+1001,Ana,Garcia,ana@correo.com,6641000001,Pulse,30/03/2026,29/04/2026</pre>
         </div>
       </div>
-      <div id="tab-reports" class="tab" style="display:none">
-        <div id="reports-content"></div>
-      </div>
+      <div id="tab-reports" class="tab" style="display:none"><div id="reports-content"></div></div>
     </div>
   </div>
 </div>
@@ -228,12 +225,12 @@ tr:hover td{background:#fafafa}
       <div class="form-group"><label>Teléfono</label><input type="tel" id="f-phone" placeholder="664 000 0000" /></div>
       <div class="form-group"><label>Cumpleaños</label><input type="date" id="f-birthday" /></div>
     </div>
-    <div class="form-group"><label>Puntos actuales</label><input type="number" id="f-points" placeholder="0" min="0" /></div>
-    <div class="form-group"><label>Plan / Paquete</label><select id="f-plan" style="padding:8px 10px;border:1px solid var(--border);border-radius:3px;font-size:13px;font-family:inherit;outline:none;width:100%"><option value="">— Sin plan —</option><option>Activation</option><option>Alignment</option><option>Créditos Manuales</option><option>Early Flow - Clases A.M.</option><option>Experience</option><option>Intention</option><option>Limitless - Créditos Ilimitados</option><option>Limitless - Suscripción</option><option>Pulse</option><option>Rider Lab</option><option>Connection + guest pass</option></select></div>
+    <div class="form-group"><label>Plan / Paquete</label><select id="f-plan"><option value="">— Sin plan —</option><option>Activation</option><option>Alignment</option><option>Créditos Manuales</option><option>Early Flow - Clases A.M.</option><option>Experience</option><option>Intention</option><option>Limitless - Créditos Ilimitados</option><option>Limitless - Suscripción</option><option>Pulse</option><option>Rider Lab</option><option>Connection + guest pass</option></select></div>
     <div class="form-row">
       <div class="form-group"><label>Activación</label><input type="date" id="f-activacion" /></div>
       <div class="form-group"><label>Vencimiento</label><input type="date" id="f-vencimiento" /></div>
     </div>
+    <div class="form-group"><label>Puntos actuales</label><input type="number" id="f-points" placeholder="0" min="0" /></div>
     <div class="form-error" id="form-error"></div>
     <div class="modal-footer">
       <button class="btn" onclick="closeAddModal()">Cancelar</button>
@@ -249,14 +246,8 @@ tr:hover td{background:#fafafa}
       <button class="btn small" onclick="closeDetailModal()">✕</button>
     </div>
     <div id="det-info"></div>
-    <div style="margin-top:14px">
-      <div style="font-size:11px;font-weight:600;color:var(--grey);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Descuentos</div>
-      <div id="det-discounts"></div>
-    </div>
-    <div style="margin-top:14px">
-      <div style="font-size:11px;font-weight:600;color:var(--grey);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Últimas visitas</div>
-      <div id="det-history"></div>
-    </div>
+    <div style="margin-top:14px"><div style="font-size:11px;font-weight:600;color:var(--grey);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Descuentos</div><div id="det-discounts"></div></div>
+    <div style="margin-top:14px"><div style="font-size:11px;font-weight:600;color:var(--grey);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Últimas visitas</div><div id="det-history"></div></div>
     <div class="modal-footer">
       <button class="btn danger small" onclick="deleteClientFromDetail()">Eliminar</button>
       <button class="btn small" onclick="resetRetoFromDetail()">Reset reto</button>
@@ -266,30 +257,72 @@ tr:hover td{background:#fafafa}
   </div>
 </div>
 
-<script>
-const STORAGE_KEY='rollen_clients_v2';
-const PASSWORD='909090la';
-let clients=[],editingId=null,detailId=null,csvRows=[],csvHeaders=[];
-function loadData(){try{const r=localStorage.getItem(STORAGE_KEY);if(r)clients=JSON.parse(r);}catch(e){clients=[];}
-  if(!clients.length){const today=new Date();const d=(n)=>{const x=new Date(today);x.setDate(x.getDate()-n);return x.toISOString().split('T')[0];};
-    clients=[
-      {id:'1001',name:'Ana',lastname:'García',email:'ana@correo.com',phone:'664100001',points:22,lastVisit:d(1),history:[d(0),d(1),d(3),d(5),d(8),d(10),d(12),d(15),d(17),d(20),d(22),d(24),d(27),d(30),d(33),d(36),d(38),d(40),d(43),d(45),d(48),d(50)],birthday:'1995-05-19',discountsUsed:{'10%':'123456 · 01/05/2026'}},
-      {id:'1002',name:'Carlos',lastname:'Mendez',email:'carlos@correo.com',phone:'664100002',points:54,lastVisit:d(2),history:[d(2),d(4),d(6),d(9),d(11),d(13),d(16),d(18),d(21),d(23),d(25),d(28),d(31),d(34),d(37),d(39),d(42),d(44),d(47),d(49),d(52),d(55),d(58)],birthday:'1990-08-22',discountsUsed:{}},
-      {id:'1003',name:'Sofia',lastname:'Ruiz',email:'sofia@correo.com',phone:'664100003',points:8,lastVisit:d(35),history:[d(35),d(40),d(48),d(55),d(62),d(70),d(78),d(85)],birthday:'2000-03-15',discountsUsed:{}},
-      {id:'1004',name:'Luis',lastname:'Torres',email:'luis@correo.com',phone:'664100004',points:18,lastVisit:d(4),history:[d(4),d(7),d(10),d(14),d(18),d(22),d(26),d(30),d(34),d(38),d(42),d(46),d(50),d(54),d(58),d(62),d(66),d(70)],birthday:'1988-05-03',discountsUsed:{}},
-      {id:'1005',name:'Maria',lastname:'Lopez',email:'maria@correo.com',phone:'664100005',points:103,lastVisit:d(0),history:[d(0),d(1),d(2),d(4),d(5),d(7),d(8),d(10),d(11),d(13),d(14),d(16),d(17),d(19),d(20),d(22),d(23),d(25),d(26),d(28)],birthday:'1992-11-30',discountsUsed:{'10%':'234567 · 01/04/2026','15%':'345678 · 15/04/2026'}},
-    ];saveData();}}
-function saveData(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(clients));}catch(e){}}
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDJqCQQNKPnvyj8I6dGGoNkSeKbwcmaOXU",
+  authDomain: "rollen-rewards.firebaseapp.com",
+  projectId: "rollen-rewards",
+  storageBucket: "rollen-rewards.firebasestorage.app",
+  messagingSenderId: "49456537645",
+  appId: "1:49456537645:web:042794868f2cd1763658a4"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const PASSWORD = '909090la';
+
+let clients = [], editingId = null, detailId = null, csvRows = [], csvHeaders = [];
+
+function setSyncStatus(state, msg) {
+  const el = document.getElementById('sync-status');
+  el.textContent = '● ' + msg;
+  el.className = 'sync-status ' + state;
+}
+
+async function loadClients() {
+  setSyncStatus('', 'Cargando...');
+  try {
+    const snap = await getDocs(collection(db, 'clients'));
+    clients = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    setSyncStatus('ok', 'Firebase conectado');
+  } catch(e) {
+    setSyncStatus('error', 'Error de conexión');
+    console.error(e);
+  }
+}
+
 function fullName(c){return c.lastname?c.name+' '+c.lastname:c.name;}
 function getReward(p){if(p>=100)return'20%';if(p>=50)return'15%';if(p>=20)return'10%';return'—';}
-function formatDate(d){if(!d||d==='')return'—';try{const[y,m,day]=d.split('-');const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return day+' '+months[parseInt(m)-1]+' '+y;}catch(e){return d;}}
+function formatDate(d){if(!d||d==='')return'—';try{if(d.includes('/')){const[day,m,y]=d.split('/');return day+' '+['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][parseInt(m)-1]+' '+y;}const[y,m,day]=d.split('-');return day+' '+['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][parseInt(m)-1]+' '+y;}catch(e){return d;}}
 function daysSince(d){if(!d)return 999;return Math.floor((new Date()-new Date(d))/86400000);}
 function getMonthVisits(h,offset=0){if(!h)return 0;const now=new Date();const m=new Date(now.getFullYear(),now.getMonth()-offset,1);return h.filter(d=>{const dt=new Date(d);return dt.getMonth()===m.getMonth()&&dt.getFullYear()===m.getFullYear();}).length;}
 function getWeekVisits(h,offset=0){if(!h)return 0;const now=new Date();now.setHours(0,0,0,0);const start=new Date(now);start.setDate(start.getDate()-start.getDay()-offset*7);const end=new Date(start);end.setDate(end.getDate()+7);return h.filter(d=>{const dt=new Date(d);return dt>=start&&dt<end;}).length;}
-function doLogin(){const pwd=document.getElementById('pwd-input').value;if(pwd===PASSWORD){document.getElementById('login-screen').style.display='none';document.getElementById('admin-screen').classList.add('active');loadData();renderDashboard();}else{document.getElementById('login-error').style.display='block';}}
-function doLogout(){document.getElementById('admin-screen').classList.remove('active');document.getElementById('login-screen').style.display='flex';document.getElementById('pwd-input').value='';}
-function showTab(name){document.querySelectorAll('.tab').forEach(t=>t.style.display='none');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+name).style.display='block';const idx={dashboard:0,clients:1,import:2,reports:3}[name];document.querySelectorAll('.nav-btn')[idx].classList.add('active');if(name==='clients')renderClients();if(name==='reports')renderReports();if(name==='dashboard')renderDashboard();}
 function trendHTML(curr,prev){if(prev===0)return'<span class="kpi-trend trend-flat">— nuevo</span>';const pct=Math.round(((curr-prev)/prev)*100);if(pct>0)return'<span class="kpi-trend trend-up">↑ '+pct+'% vs mes ant.</span>';if(pct<0)return'<span class="kpi-trend trend-down">↓ '+Math.abs(pct)+'% vs mes ant.</span>';return'<span class="kpi-trend trend-flat">= sin cambio</span>';}
+
+function doLogin(){
+  const pwd=document.getElementById('pwd-input').value;
+  if(pwd===PASSWORD){document.getElementById('login-screen').style.display='none';document.getElementById('admin-screen').classList.add('active');loadClients().then(()=>{renderDashboard();});}
+  else{document.getElementById('login-error').style.display='block';}
+}
+window.doLogin=doLogin;
+function doLogout(){document.getElementById('admin-screen').classList.remove('active');document.getElementById('login-screen').style.display='flex';document.getElementById('pwd-input').value='';}
+window.doLogout=doLogout;
+
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).style.display='block';
+  const idx={dashboard:0,clients:1,import:2,reports:3}[name];
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  if(name==='clients')renderClients();
+  if(name==='reports')renderReports();
+  if(name==='dashboard')renderDashboard();
+}
+window.showTab=showTab;
+
 function renderDashboard(){
   const total=clients.length;
   const totalVisits=clients.reduce((a,c)=>a+(c.points||0),0);
@@ -300,7 +333,7 @@ function renderDashboard(){
   const avgVisits=total?Math.round((totalVisits/total)*10)/10:0;
   const thisWeek=clients.reduce((a,c)=>a+getWeekVisits(c.history),0);
   const lastWeek=clients.reduce((a,c)=>a+getWeekVisits(c.history,1),0);
-  const newThisMonth=clients.filter(c=>{if(!c.history||!c.history.length)return false;const first=c.history[c.history.length-1];const now=new Date();const dt=new Date(first);return dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear();}).length;
+  const newThisMonth=clients.filter(c=>{if(!c.history||!c.history.length)return false;const first=[...c.history].sort()[0];const now=new Date();const dt=new Date(first);return dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear();}).length;
   document.getElementById('kpi-grid').innerHTML=`<div class="kpi"><div class="kpi-label">Clientes totales</div><div class="kpi-val">${total}</div><span class="kpi-trend trend-up" style="background:#f0fff4;color:var(--green)">+${newThisMonth} este mes</span></div><div class="kpi"><div class="kpi-label">Visitas este mes</div><div class="kpi-val">${visitsThisMonth}</div>${trendHTML(visitsThisMonth,visitsLastMonth)}</div><div class="kpi"><div class="kpi-label">Visitas esta semana</div><div class="kpi-val">${thisWeek}</div>${trendHTML(thisWeek,lastWeek)}</div><div class="kpi"><div class="kpi-label">Promedio visitas/cliente</div><div class="kpi-val">${avgVisits}</div>${trendHTML(activeThisMonth,activeLastMonth)}</div>`;
   const retained=clients.filter(c=>getMonthVisits(c.history)>0&&getMonthVisits(c.history,1)>0).length;
   const retRate=activeLastMonth?Math.round((retained/activeLastMonth)*100):0;
@@ -320,20 +353,37 @@ function renderDashboard(){
   const hmData=Array(4).fill(null).map(()=>Array(7).fill(0));
   clients.forEach(c=>(c.history||[]).forEach(d=>{const dt=new Date(d);const dow=dt.getDay()===0?6:dt.getDay()-1;const wkAgo=Math.floor((new Date()-dt)/604800000);if(wkAgo<4)hmData[wkAgo][dow]++;}));
   const hmMax=Math.max(...hmData.flat())||1;
-  const getHmColor=(v)=>{const i=Math.round((v/hmMax)*200);return`rgb(${255-i},${255-i},${255-Math.round(i*0.5)})`;};
+  const getHmColor=v=>{const i=Math.round((v/hmMax)*200);return`rgb(${255-i},${255-i},${255-Math.round(i*0.5)})`;};
   let hmHTML='<div class="heatmap-grid"><div></div>'+dayNames.map(d=>`<div class="hm-day-label">${d}</div>`).join('');
   ['Esta sem','Hace 1','Hace 2','Hace 3'].forEach((lbl,wi)=>{hmHTML+=`<div class="hm-label">${lbl}</div>`;for(let di=0;di<7;di++){const v=hmData[wi][di];hmHTML+=`<div class="hm-cell" style="background:${getHmColor(v)}" title="${v} visitas"></div>`;}});
   hmHTML+='</div>';
-  const top5=[...clients].sort((a,b)=>b.points-a.points).slice(0,5);
-  const topHTML=top5.map((c,i)=>`<div class="report-row"><span>${i+1}. ${fullName(c)}</span><span style="font-weight:500">${c.points} vis.</span></div>`).join('');
+  const top5=[...clients].sort((a,b)=>(b.points||0)-(a.points||0)).slice(0,5);
+  const topHTML=top5.map((c,i)=>`<div class="report-row"><span>${i+1}. ${fullName(c)}</span><span style="font-weight:500">${c.points||0} vis.</span></div>`).join('');
   const risk=clients.filter(c=>daysSince(c.lastVisit)>=15).slice(0,5);
   const riskHTML=risk.length?risk.map(c=>`<div class="report-row"><span>${fullName(c)}</span><span class="badge badge-risk">${daysSince(c.lastVisit)}d</span></div>`).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Ningún cliente en riesgo 🎉</div>';
-  const close=clients.filter(c=>{const p=c.points;return(p>=17&&p<20)||(p>=45&&p<50)||(p>=93&&p<100);}).slice(0,5);
-  const closeHTML=close.length?close.map(c=>{const next=c.points<20?20:c.points<50?50:100;const disc=next<=20?'10%':next<=50?'15%':'20%';return`<div class="report-row"><span>${fullName(c)}</span><span class="badge badge-close">Faltan ${next-c.points} → ${disc}</span></div>`;}).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Ninguno cerca de subir</div>';
-  const bdayMonth=clients.filter(c=>{if(!c.birthday)return false;const[,m]=c.birthday.split('-');return parseInt(m)===(now.getMonth()+1);}).slice(0,5);
-  const bdayHTML=bdayMonth.length?bdayMonth.map(c=>{const[,m,d]=c.birthday.split('-');return`<div class="report-row"><span>${fullName(c)}</span><span class="badge badge-bday">${d}/${m}</span></div>`;}).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Sin cumpleaños este mes</div>';
+  const close=clients.filter(c=>{const p=c.points||0;return(p>=17&&p<20)||(p>=45&&p<50)||(p>=93&&p<100);}).slice(0,5);
+  const closeHTML=close.length?close.map(c=>{const p=c.points||0;const next=p<20?20:p<50?50:100;const disc=next<=20?'10%':next<=50?'15%':'20%';return`<div class="report-row"><span>${fullName(c)}</span><span class="badge badge-close">Faltan ${next-p} → ${disc}</span></div>`;}).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Ninguno cerca de subir</div>';
+  const bdayMonth=clients.filter(c=>{if(!c.birthday)return false;const parts=c.birthday.split('-');const m=parts[1];return parseInt(m)===(now.getMonth()+1);}).slice(0,5);
+  const bdayHTML=bdayMonth.length?bdayMonth.map(c=>{const parts=c.birthday.split('-');return`<div class="report-row"><span>${fullName(c)}</span><span class="badge badge-bday">${parts[2]}/${parts[1]}</span></div>`;}).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Sin cumpleaños este mes</div>';
   document.getElementById('dash-reports').innerHTML=`<div class="report-card" style="grid-column:1/-1"><div class="chart-title">Heatmap de asistencia (últimas 4 semanas)</div>${hmHTML}</div><div class="report-card"><h4>Top clientes</h4>${topHTML}</div><div class="report-card"><h4>En riesgo (+15 días sin visita)</h4>${riskHTML}</div><div class="report-card"><h4>Cerca del siguiente nivel</h4>${closeHTML}</div><div class="report-card"><h4>Cumpleaños este mes</h4>${bdayHTML}</div>`;
 }
+
+function renderClients(){
+  const q=(document.getElementById('client-search').value||'').toLowerCase();
+  const filtered=clients.filter(c=>fullName(c).toLowerCase().includes(q)||c.id.includes(q)||(c.email||'').toLowerCase().includes(q)||(c.phone||'').includes(q)).sort((a,b)=>(b.points||0)-(a.points||0));
+  const tbody=document.getElementById('clients-tbody');
+  const empty=document.getElementById('clients-empty');
+  if(!filtered.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  const now=new Date();
+  tbody.innerHTML=filtered.map(c=>{
+    const isBday=c.birthday&&parseInt(c.birthday.split('-')[1])===(now.getMonth()+1);
+    const planBadge=c.plan?`<span style="font-size:11px;padding:2px 7px;border-radius:20px;background:#f0f4ff;color:#2D45EA;font-weight:500">${c.plan}</span>`:'—';
+    return`<tr><td><strong>${c.id}</strong></td><td>${fullName(c)}${isBday?' 🎂':''}</td><td>${c.email||'—'}</td><td>${planBadge}</td><td>${formatDate(c.vencimiento||'')}</td><td><strong>${c.points||0}</strong></td><td>${getReward(c.points||0)}</td><td>${formatDate(c.lastVisit||'')}</td><td><div class="td-actions"><button class="btn small" onclick="openDetail('${c.id}')">Ver</button><button class="btn small" onclick="openEditModal('${c.id}')">Editar</button><button class="btn small danger" onclick="deleteClient('${c.id}')">Eliminar</button></div></td></tr>`;
+  }).join('');
+}
+window.renderClients=renderClients;
+
 function renderReports(){
   const now=new Date();const monthNames=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];const monthData=[];
   for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);const mo=d.getMonth();const yr=d.getFullYear();const count=clients.reduce((a,c)=>(c.history||[]).filter(hd=>{const dt=new Date(hd);return dt.getMonth()===mo&&dt.getFullYear()===yr;}).length+a,0);monthData.push({label:monthNames[mo],count});}
@@ -343,48 +393,166 @@ function renderReports(){
   const discHTML=Object.keys(discUsed).length?Object.entries(discUsed).map(([k,v])=>`<div class="report-row"><span>Descuento ${k}</span><span style="font-weight:500">${v} usos</span></div>`).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Ningún descuento usado aún</div>';
   const inactive=clients.filter(c=>daysSince(c.lastVisit)>=15);
   const inactiveHTML=inactive.length?inactive.map(c=>`<div class="report-row"><span>${fullName(c)}</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;color:var(--grey)">${c.email||'—'}</span><span class="badge badge-risk">${daysSince(c.lastVisit)}d</span></div></div>`).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Todos activos 🎉</div>';
-  document.getElementById('reports-content').innerHTML=`<div class="section-title">Visitas por mes (últimos 6 meses)</div><div class="chart-card" style="margin-bottom:16px"><div class="bar-chart" style="height:80px">${monthBars}</div></div><div class="reports-row"><div class="report-card"><h4>Descuentos canjeados</h4>${discHTML}</div><div class="report-card"><h4>Clientes inactivos (+15 días)</h4>${inactiveHTML}</div></div>`;
+  // Plan distribution
+  const planCount={};clients.forEach(c=>{if(c.plan){planCount[c.plan]=(planCount[c.plan]||0)+1;}});
+  const planHTML=Object.keys(planCount).length?Object.entries(planCount).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="report-row"><span>${k}</span><span style="font-weight:500">${v} clientes</span></div>`).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Sin datos de plan</div>';
+  document.getElementById('reports-content').innerHTML=`<div class="section-title">Visitas por mes (últimos 6 meses)</div><div class="chart-card" style="margin-bottom:16px"><div class="bar-chart" style="height:80px">${monthBars}</div></div><div class="reports-row"><div class="report-card"><h4>Descuentos canjeados</h4>${discHTML}</div><div class="report-card"><h4>Clientes inactivos (+15 días)</h4>${inactiveHTML}</div><div class="report-card"><h4>Distribución por plan</h4>${planHTML}</div></div>`;
 }
-function renderClients(){
-  const q=(document.getElementById('client-search').value||'').toLowerCase();
-  const filtered=clients.filter(c=>fullName(c).toLowerCase().includes(q)||c.id.includes(q)||(c.email||'').toLowerCase().includes(q)||(c.phone||'').includes(q)).sort((a,b)=>b.points-a.points);
-  const tbody=document.getElementById('clients-tbody');const empty=document.getElementById('clients-empty');
-  if(!filtered.length){tbody.innerHTML='';empty.style.display='block';return;}
-  empty.style.display='none';
-  const now=new Date();
-  tbody.innerHTML=filtered.map(c=>{const isBday=c.birthday&&parseInt(c.birthday.split('-')[1])===(now.getMonth()+1);const planBadge=c.plan?`<span style="font-size:11px;padding:2px 7px;border-radius:20px;background:#f0f4ff;color:#2D45EA;font-weight:500">${c.plan}</span>`:'—';const venceStr=c.vencimiento?formatDate(c.vencimiento):'—';return`<tr><td><strong>${c.id}</strong></td><td>${fullName(c)}${isBday?' 🎂':''}</td><td>${c.email||'—'}</td><td>${c.phone||'—'}</td><td>${planBadge}</td><td>${venceStr}</td><td><strong>${c.points}</strong></td><td>${getReward(c.points)}</td><td>${formatDate(c.lastVisit)}</td><td><div class="td-actions"><button class="btn small" onclick="openDetail('${c.id}')">Ver</button><button class="btn small" onclick="openEditModal('${c.id}')">Editar</button><button class="btn small danger" onclick="deleteClient('${c.id}')">Eliminar</button></div></td></tr>`;}).join('');
-}
-function openDetail(id){detailId=id;const c=clients.find(x=>x.id===id);if(!c)return;document.getElementById('det-name').textContent=fullName(c)+' (#'+c.id+')';document.getElementById('det-info').innerHTML=`<div class="client-detail-row"><span class="detail-label">Correo</span><span class="detail-val">${c.email||'—'}</span></div><div class="client-detail-row"><span class="detail-label">Teléfono</span><span class="detail-val">${c.phone||'—'}</span></div><div class="client-detail-row"><span class="detail-label">Cumpleaños</span><span class="detail-val">${c.birthday?formatDate(c.birthday):'—'}</span></div><div class="client-detail-row"><span class="detail-label">Visitas totales</span><span class="detail-val">${c.points}</span></div><div class="client-detail-row"><span class="detail-label">Descuento activo</span><span class="detail-val">${getReward(c.points)}</span></div><div class="client-detail-row"><span class="detail-label">Visitas este mes</span><span class="detail-val">${getMonthVisits(c.history)}/20 reto</span></div><div class="client-detail-row"><span class="detail-label">Última visita</span><span class="detail-val">${formatDate(c.lastVisit)}</span></div><div class="client-detail-row"><span class="detail-label">Días sin visita</span><span class="detail-val">${daysSince(c.lastVisit)===999?'—':daysSince(c.lastVisit)+'d'}</span></div>
-    <div class="client-detail-row"><span class="detail-label">Plan</span><span class="detail-val">${c.plan||'—'}</span></div>
-    <div class="client-detail-row"><span class="detail-label">Activación</span><span class="detail-val">${c.activacion?formatDate(c.activacion.split('/').reverse().join('-')):'—'}</span></div>
-    <div class="client-detail-row"><span class="detail-label">Vencimiento</span><span class="detail-val">${c.vencimiento?formatDate(c.vencimiento):'—'}</span></div>`;
+
+function openDetail(id){
+  detailId=id;const c=clients.find(x=>x.id===id);if(!c)return;
+  document.getElementById('det-name').textContent=fullName(c)+' (#'+c.id+')';
+  document.getElementById('det-info').innerHTML=`
+    <div class="detail-row"><span class="detail-label">Correo</span><span class="detail-val">${c.email||'—'}</span></div>
+    <div class="detail-row"><span class="detail-label">Teléfono</span><span class="detail-val">${c.phone||'—'}</span></div>
+    <div class="detail-row"><span class="detail-label">Cumpleaños</span><span class="detail-val">${c.birthday||'—'}</span></div>
+    <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-val">${c.plan||'—'}</span></div>
+    <div class="detail-row"><span class="detail-label">Activación</span><span class="detail-val">${formatDate(c.activacion||'')}</span></div>
+    <div class="detail-row"><span class="detail-label">Vencimiento</span><span class="detail-val">${formatDate(c.vencimiento||'')}</span></div>
+    <div class="detail-row"><span class="detail-label">Visitas totales</span><span class="detail-val">${c.points||0}</span></div>
+    <div class="detail-row"><span class="detail-label">Descuento activo</span><span class="detail-val">${getReward(c.points||0)}</span></div>
+    <div class="detail-row"><span class="detail-label">Visitas este mes</span><span class="detail-val">${getMonthVisits(c.history)}/20 reto</span></div>
+    <div class="detail-row"><span class="detail-label">Última visita</span><span class="detail-val">${formatDate(c.lastVisit||'')}</span></div>
+    <div class="detail-row"><span class="detail-label">Días sin visita</span><span class="detail-val">${daysSince(c.lastVisit)===999?'—':daysSince(c.lastVisit)+'d'}</span></div>`;
   const discLevels=[{pct:'10%',visits:20},{pct:'15%',visits:50},{pct:'20%',visits:100}];
-  document.getElementById('det-discounts').innerHTML=discLevels.map(dl=>{const earned=c.points>=dl.visits;const used=c.discountsUsed&&c.discountsUsed[dl.pct];return`<div class="discount-item"><div><strong>${dl.pct}</strong><span style="font-size:12px;color:var(--grey);margin-left:6px">${dl.visits} visitas</span></div><div style="display:flex;align-items:center;gap:8px">${!earned?'<span style="font-size:12px;color:#bbb">No desbloqueado</span>':used?`<span style="font-size:12px;color:var(--grey)">${used}</span><button class="btn small" onclick="resetDiscount('${dl.pct}')">Reset</button>`:'<span style="font-size:12px;color:var(--green);font-weight:500">Disponible</span>'}</div></div>`;}).join('');
-  const visits=c.history||[];document.getElementById('det-history').innerHTML=visits.length?visits.slice(0,8).map(d=>`<div class="client-detail-row"><span class="detail-label">${formatDate(d)}</span><span class="detail-val">+1 punto</span></div>`).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Sin visitas</div>';
-  document.getElementById('detail-modal').classList.add('open');}
+  document.getElementById('det-discounts').innerHTML=discLevels.map(dl=>{
+    const earned=(c.points||0)>=dl.visits;const used=c.discountsUsed&&c.discountsUsed[dl.pct];
+    return`<div class="discount-item"><div><strong>${dl.pct}</strong><span style="font-size:12px;color:var(--grey);margin-left:6px">${dl.visits} visitas</span></div><div style="display:flex;align-items:center;gap:8px">${!earned?'<span style="font-size:12px;color:#bbb">No desbloqueado</span>':used?`<span style="font-size:12px;color:var(--grey)">${used}</span><button class="btn small" onclick="resetDiscount('${dl.pct}')">Reset</button>`:'<span style="font-size:12px;color:var(--green);font-weight:500">Disponible</span>'}</div></div>`;
+  }).join('');
+  const visits=c.history||[];
+  document.getElementById('det-history').innerHTML=visits.length?[...visits].sort((a,b)=>b.localeCompare(a)).slice(0,8).map(d=>`<div class="detail-row"><span class="detail-label">${formatDate(d)}</span><span class="detail-val">+1 punto</span></div>`).join(''):'<div style="font-size:13px;color:#aaa;padding:8px 0">Sin visitas</div>';
+  document.getElementById('detail-modal').classList.add('open');
+}
+window.openDetail=openDetail;
 function closeDetailModal(){document.getElementById('detail-modal').classList.remove('open');detailId=null;}
-function resetDiscount(pct){if(!detailId)return;const c=clients.find(x=>x.id===detailId);if(c&&c.discountsUsed){delete c.discountsUsed[pct];saveData();openDetail(detailId);renderClients();}}
-function checkinFromDetail(){if(!detailId)return;const c=clients.find(x=>x.id===detailId);const today=new Date().toISOString().split('T')[0];c.points++;c.lastVisit=today;if(!c.history)c.history=[];c.history.unshift(today);saveData();openDetail(detailId);renderClients();renderDashboard();}
-function resetRetoFromDetail(){if(!detailId)return;const c=clients.find(x=>x.id===detailId);const now=new Date();if(c.history)c.history=c.history.filter(d=>{const dt=new Date(d);return!(dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear());});saveData();openDetail(detailId);}
-function deleteClientFromDetail(){if(!detailId)return;const c=clients.find(x=>x.id===detailId);if(!confirm('¿Eliminar a '+fullName(c)+'?'))return;clients=clients.filter(x=>x.id!==detailId);saveData();closeDetailModal();renderClients();renderDashboard();}
-function editFromDetail(){closeDetailModal();openEditModal(detailId);}
+window.closeDetailModal=closeDetailModal;
+
+window.resetDiscount=async function(pct){
+  if(!detailId)return;const c=clients.find(x=>x.id===detailId);if(!c||!c.discountsUsed)return;
+  delete c.discountsUsed[pct];
+  await updateDoc(doc(db,'clients',detailId),{discountsUsed:c.discountsUsed});
+  openDetail(detailId);renderClients();
+};
+
+window.checkinFromDetail=async function(){
+  if(!detailId)return;const c=clients.find(x=>x.id===detailId);
+  const today=new Date().toISOString().split('T')[0];
+  c.points=(c.points||0)+1;c.lastVisit=today;if(!c.history)c.history=[];if(!c.history.includes(today))c.history.push(today);
+  await updateDoc(doc(db,'clients',detailId),{points:c.points,lastVisit:today,history:arrayUnion(today)});
+  openDetail(detailId);renderClients();renderDashboard();
+};
+
+window.resetRetoFromDetail=async function(){
+  if(!detailId)return;const c=clients.find(x=>x.id===detailId);
+  const now=new Date();
+  const toRemove=(c.history||[]).filter(d=>{const dt=new Date(d);return dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear();});
+  for(const d of toRemove){await updateDoc(doc(db,'clients',detailId),{history:arrayRemove(d)});}
+  c.history=(c.history||[]).filter(d=>!toRemove.includes(d));
+  openDetail(detailId);alert('Reto del mes reseteado para '+fullName(c));
+};
+
+window.deleteClientFromDetail=async function(){
+  if(!detailId)return;const c=clients.find(x=>x.id===detailId);
+  if(!confirm('¿Eliminar a '+fullName(c)+'?'))return;
+  await deleteDoc(doc(db,'clients',detailId));
+  clients=clients.filter(x=>x.id!==detailId);
+  closeDetailModal();renderClients();renderDashboard();
+};
+
+window.editFromDetail=function(){closeDetailModal();openEditModal(detailId);};
+
 function openAddModal(){editingId=null;document.getElementById('modal-title').textContent='Agregar cliente';['uid','name','lastname','email','phone','birthday','activacion','vencimiento'].forEach(f=>document.getElementById('f-'+f).value='');document.getElementById('f-plan').value='';document.getElementById('f-uid').disabled=false;document.getElementById('f-points').value='0';document.getElementById('form-error').style.display='none';document.getElementById('add-modal').classList.add('open');}
-function openEditModal(id){editingId=id;const c=clients.find(x=>x.id===id);if(!c)return;document.getElementById('modal-title').textContent='Editar cliente';document.getElementById('f-uid').value=c.id;document.getElementById('f-uid').disabled=true;document.getElementById('f-name').value=c.name;document.getElementById('f-lastname').value=c.lastname||'';document.getElementById('f-email').value=c.email||'';document.getElementById('f-phone').value=c.phone||'';document.getElementById('f-birthday').value=c.birthday||'';document.getElementById('f-points').value=c.points;document.getElementById('f-plan').value=c.plan||'';document.getElementById('f-activacion').value=c.activacion||'';document.getElementById('f-vencimiento').value=c.vencimiento||'';document.getElementById('form-error').style.display='none';document.getElementById('add-modal').classList.add('open');}
+window.openAddModal=openAddModal;
+
+function openEditModal(id){
+  editingId=id;const c=clients.find(x=>x.id===id);if(!c)return;
+  document.getElementById('modal-title').textContent='Editar cliente';
+  document.getElementById('f-uid').value=c.id;document.getElementById('f-uid').disabled=true;
+  document.getElementById('f-name').value=c.name;document.getElementById('f-lastname').value=c.lastname||'';
+  document.getElementById('f-email').value=c.email||'';document.getElementById('f-phone').value=c.phone||'';
+  document.getElementById('f-birthday').value=c.birthday||'';document.getElementById('f-points').value=c.points||0;
+  document.getElementById('f-plan').value=c.plan||'';
+  document.getElementById('f-activacion').value=c.activacion||'';document.getElementById('f-vencimiento').value=c.vencimiento||'';
+  document.getElementById('form-error').style.display='none';document.getElementById('add-modal').classList.add('open');
+}
+window.openEditModal=openEditModal;
 function closeAddModal(){document.getElementById('add-modal').classList.remove('open');editingId=null;document.getElementById('f-uid').disabled=false;}
-function saveClient(){const uid=document.getElementById('f-uid').value.trim();const name=document.getElementById('f-name').value.trim();const lastname=document.getElementById('f-lastname').value.trim();const email=document.getElementById('f-email').value.trim();const phone=document.getElementById('f-phone').value.trim();const birthday=document.getElementById('f-birthday').value;const points=parseInt(document.getElementById('f-points').value)||0;const plan=document.getElementById('f-plan').value;const activacion=document.getElementById('f-activacion').value;const vencimiento=document.getElementById('f-vencimiento').value;const err=document.getElementById('form-error');if(!uid||!name){err.textContent='Usuario y nombre son obligatorios.';err.style.display='block';return;}if(!editingId&&clients.find(c=>c.id===uid)){err.textContent='Ya existe un cliente con ese número.';err.style.display='block';return;}if(editingId){const c=clients.find(x=>x.id===editingId);Object.assign(c,{name,lastname,email,phone,birthday,points,plan,activacion,vencimiento});}else{clients.push({id:uid,name,lastname,email,phone,birthday,points,plan,activacion,vencimiento,lastVisit:'',history:[],discountsUsed:{}});}saveData();closeAddModal();renderClients();renderDashboard();}
-function deleteClient(id){const c=clients.find(x=>x.id===id);if(!confirm('¿Eliminar a '+fullName(c)+'?'))return;clients=clients.filter(x=>x.id!==id);saveData();renderClients();renderDashboard();}
-function exportCSV(){const headers=['usuario','nombre','apellido','correo','telefono','cumpleanos','puntos','ultima_visita','descuento','plan','activacion','vencimiento'];const rows=clients.map(c=>[c.id,c.name,c.lastname||'',c.email||'',c.phone||'',c.birthday||'',c.points,c.lastVisit||'',getReward(c.points),c.plan||'',c.activacion||'',c.vencimiento||'']);const csv=[headers,...rows].map(r=>r.join(',')).join('\n');const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='rollen-clientes.csv';a.click();}
+window.closeAddModal=closeAddModal;
+
+window.saveClient=async function(){
+  const uid=document.getElementById('f-uid').value.trim();const name=document.getElementById('f-name').value.trim();
+  const lastname=document.getElementById('f-lastname').value.trim();const email=document.getElementById('f-email').value.trim();
+  const phone=document.getElementById('f-phone').value.trim();const birthday=document.getElementById('f-birthday').value;
+  const points=parseInt(document.getElementById('f-points').value)||0;
+  const plan=document.getElementById('f-plan').value;
+  const activacion=document.getElementById('f-activacion').value;const vencimiento=document.getElementById('f-vencimiento').value;
+  const err=document.getElementById('form-error');
+  if(!uid||!name){err.textContent='Usuario y nombre son obligatorios.';err.style.display='block';return;}
+  if(!editingId&&clients.find(c=>c.id===uid)){err.textContent='Ya existe un cliente con ese número.';err.style.display='block';return;}
+  const data={name,lastname,email,phone,birthday,points,plan,activacion,vencimiento};
+  if(editingId){
+    await updateDoc(doc(db,'clients',editingId),data);
+    const c=clients.find(x=>x.id===editingId);Object.assign(c,data);
+  }else{
+    const newClient={...data,lastVisit:'',history:[],discountsUsed:{}};
+    await setDoc(doc(db,'clients',uid),newClient);
+    clients.push({id:uid,...newClient});
+  }
+  closeAddModal();renderClients();renderDashboard();
+};
+
+window.deleteClient=async function(id){
+  const c=clients.find(x=>x.id===id);if(!confirm('¿Eliminar a '+fullName(c)+'?'))return;
+  await deleteDoc(doc(db,'clients',id));
+  clients=clients.filter(x=>x.id!==id);renderClients();renderDashboard();
+};
+
+function exportCSV(){
+  const headers=['usuario','nombre','apellido','correo','telefono','cumpleanos','puntos','ultima_visita','descuento','plan','activacion','vencimiento'];
+  const rows=clients.map(c=>[c.id,c.name,c.lastname||'',c.email||'',c.phone||'',c.birthday||'',c.points||0,c.lastVisit||'',getReward(c.points||0),c.plan||'',c.activacion||'',c.vencimiento||'']);
+  const csv=[headers,...rows].map(r=>r.join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='rollen-clientes.csv';a.click();
+}
+window.exportCSV=exportCSV;
+
 function parseCSV(text){const sep=text.includes(';')?';':',';const lines=text.trim().split(/\r?\n/).filter(l=>l.trim());if(lines.length<2)return{headers:[],rows:[]};const headers=lines[0].split(sep).map(h=>h.trim().replace(/^"|"$/g,''));const rows=lines.slice(1).map(line=>{const cols=[];let cur='',inQ=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){inQ=!inQ;}else if(ch===sep&&!inQ){cols.push(cur.trim());cur='';}else{cur+=ch;}}cols.push(cur.trim());return headers.reduce((o,h,i)=>{o[h]=cols[i]||'';return o;},{});});return{headers,rows};}
-function autoDetect(headers){const n=s=>s.toLowerCase().replace(/[^a-z]/g,'');const match=kws=>headers.find(h=>kws.some(k=>n(h).includes(k)))||'__none__';return{uid:match(['usuario','user','id','numero','num']),name:match(['nombre','name','first']),lastname:match(['apellido','lastname','surname']),email:match(['email','correo','mail']),phone:match(['telefono','phone','tel','celular']),birthday:match(['cumple','birthday','nacimiento']),points:match(['punto','point','visita','visit']),plan:match(['plan','paquete','package','membresia']),activacion:match(['activacion','activation','inicio','start']),vencimiento:match(['vencimiento','vence','expira','expiry','end'])};}
+function autoDetect(headers){const n=s=>s.toLowerCase().replace(/[^a-z]/g,'');const match=kws=>headers.find(h=>kws.some(k=>n(h).includes(k)))||'__none__';return{uid:match(['id','usuario','user','numero','num']),name:match(['nombre','name','first']),lastname:match(['apellido','lastname','surname']),email:match(['email','correo','mail']),phone:match(['telefono','phone','tel','celular']),birthday:match(['cumple','birthday','nacimiento']),plan:match(['plan','paquete','package']),activacion:match(['activacion','activation','inicio']),vencimiento:match(['vencimiento','vence','expira']),points:match(['punto','point','visita','visit'])};}
 function buildOpts(headers,sel){return['<option value="__none__">— No incluir —</option>',...headers.map(h=>`<option value="${h}"${h===sel?' selected':''}>${h}</option>`)].join('');}
-function handleDragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('dragover');}
-function handleDragLeave(){document.getElementById('drop-zone').classList.remove('dragover');}
-function handleDrop(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('dragover');const f=e.dataTransfer.files[0];if(f)readFile(f);}
-function handleFile(e){const f=e.target.files[0];if(f)readFile(f);}
-function readFile(file){const reader=new FileReader();reader.onload=e=>{const parsed=parseCSV(e.target.result);if(!parsed.headers.length){alert('No se pudo leer el CSV');return;}csvHeaders=parsed.headers;csvRows=parsed.rows;const det=autoDetect(csvHeaders);['uid','name','lastname','email','phone','birthday','points','plan','activacion','vencimiento'].forEach(f=>document.getElementById('map-'+f).innerHTML=buildOpts(csvHeaders,det[f]));document.getElementById('import-mapping').style.display='block';document.getElementById('import-preview').style.display='none';};reader.readAsText(file,'UTF-8');}
-function previewImport(){const get=id=>document.getElementById(id).value;const mapUid=get('map-uid'),mapName=get('map-name'),mapLast=get('map-lastname'),mapEmail=get('map-email'),mapPhone=get('map-phone'),mapBday=get('map-birthday'),mapPts=get('map-points'),mapPlan=get('map-plan'),mapAct=get('map-activacion'),mapVenc=get('map-vencimiento');if(mapUid==='__none__'||mapName==='__none__'){alert('Usuario y nombre son obligatorios');return;}let newC=0,dupC=0,skipC=0;const preview=csvRows.map(row=>{const uid=(row[mapUid]||'').trim();if(!uid){skipC++;return null;}const isDup=!!clients.find(c=>c.id===uid);isDup?dupC++:newC++;return{uid,name:(row[mapName]||'').trim(),lastname:mapLast!=='__none__'?(row[mapLast]||'').trim():'',email:mapEmail!=='__none__'?(row[mapEmail]||'').trim():'',phone:mapPhone!=='__none__'?(row[mapPhone]||'').trim():'',birthday:mapBday!=='__none__'?(row[mapBday]||'').trim():'',points:mapPts!=='__none__'?parseInt(row[mapPts])||0:0,plan:mapPlan!=='__none__'?(row[mapPlan]||'').trim():'',activacion:mapAct!=='__none__'?(row[mapAct]||'').trim():'',vencimiento:mapVenc!=='__none__'?(row[mapVenc]||'').trim():'',isDup};}).filter(Boolean);document.getElementById('prev-head').innerHTML='<tr><th>Usuario</th><th>Nombre</th><th>Apellido</th><th>Correo</th><th>Cumpleaños</th><th>Estado</th></tr>';document.getElementById('prev-body').innerHTML=preview.slice(0,10).map(r=>`<tr class="${r.isDup?'dup':''}"><td>${r.uid}</td><td>${r.name}</td><td>${r.lastname||'—'}</td><td>${r.email||'—'}</td><td>${r.birthday||'—'}</td><td>${r.isDup?'Ya existe':'Nuevo'}</td></tr>`).join('');document.getElementById('import-chips').innerHTML=`<span class="chip chip-new">${newC} nuevos</span>${dupC?`<span class="chip chip-dup">${dupC} duplicados</span>`:''}${skipC?`<span class="chip chip-skip">${skipC} sin ID</span>`:''}`;document.getElementById('import-preview').style.display='block';document.getElementById('import-result').style.display='none';window._importData=preview;}
-function executeImport(){const toImport=(window._importData||[]).filter(r=>!r.isDup);if(!toImport.length){alert('No hay clientes nuevos para importar');return;}toImport.forEach(r=>clients.push({id:r.uid,name:r.name,lastname:r.lastname,email:r.email,phone:r.phone,birthday:r.birthday,points:r.points,plan:r.plan||'',activacion:r.activacion||'',vencimiento:r.vencimiento||'',lastVisit:'',history:[],discountsUsed:{}}));saveData();const res=document.getElementById('import-result');res.textContent='✓ Se importaron '+toImport.length+' clientes correctamente.';res.style.display='block';renderDashboard();}
-function resetImport(){csvRows=[];csvHeaders=[];document.getElementById('csv-file').value='';document.getElementById('import-mapping').style.display='none';document.getElementById('import-preview').style.display='none';}
+window.handleDragOver=function(e){e.preventDefault();document.getElementById('drop-zone').classList.add('dragover');}
+window.handleDragLeave=function(){document.getElementById('drop-zone').classList.remove('dragover');}
+window.handleDrop=function(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('dragover');const f=e.dataTransfer.files[0];if(f)readFile(f);}
+window.handleFile=function(e){const f=e.target.files[0];if(f)readFile(f);}
+function readFile(file){const reader=new FileReader();reader.onload=e=>{const parsed=parseCSV(e.target.result);if(!parsed.headers.length){alert('No se pudo leer el CSV');return;}csvHeaders=parsed.headers;csvRows=parsed.rows;const det=autoDetect(csvHeaders);['uid','name','lastname','email','phone','birthday','plan','activacion','vencimiento','points'].forEach(f=>document.getElementById('map-'+f).innerHTML=buildOpts(csvHeaders,det[f]));document.getElementById('import-mapping').style.display='block';document.getElementById('import-preview').style.display='none';};reader.readAsText(file,'UTF-8');}
+window.previewImport=function(){
+  const get=id=>document.getElementById(id).value;
+  const mapUid=get('map-uid'),mapName=get('map-name'),mapLast=get('map-lastname'),mapEmail=get('map-email'),mapPhone=get('map-phone'),mapBday=get('map-birthday'),mapPlan=get('map-plan'),mapAct=get('map-activacion'),mapVenc=get('map-vencimiento'),mapPts=get('map-points');
+  if(mapUid==='__none__'||mapName==='__none__'){alert('ID y nombre son obligatorios');return;}
+  let newC=0,dupC=0,skipC=0;
+  const preview=csvRows.map(row=>{const uid=(row[mapUid]||'').trim();if(!uid){skipC++;return null;}const isDup=!!clients.find(c=>c.id===uid);isDup?dupC++:newC++;return{uid,name:(row[mapName]||'').trim(),lastname:mapLast!=='__none__'?(row[mapLast]||'').trim():'',email:mapEmail!=='__none__'?(row[mapEmail]||'').trim():'',phone:mapPhone!=='__none__'?(row[mapPhone]||'').trim():'',birthday:mapBday!=='__none__'?(row[mapBday]||'').trim():'',plan:mapPlan!=='__none__'?(row[mapPlan]||'').trim():'',activacion:mapAct!=='__none__'?(row[mapAct]||'').trim():'',vencimiento:mapVenc!=='__none__'?(row[mapVenc]||'').trim():'',points:mapPts!=='__none__'?parseInt(row[mapPts])||0:0,isDup};}).filter(Boolean);
+  document.getElementById('prev-head').innerHTML='<tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Plan</th><th>Vencimiento</th><th>Estado</th></tr>';
+  document.getElementById('prev-body').innerHTML=preview.slice(0,10).map(r=>`<tr class="${r.isDup?'dup':''}"><td>${r.uid}</td><td>${r.name} ${r.lastname||''}</td><td>${r.email||'—'}</td><td>${r.plan||'—'}</td><td>${r.vencimiento||'—'}</td><td>${r.isDup?'Ya existe':'Nuevo'}</td></tr>`).join('');
+  document.getElementById('import-chips').innerHTML=`<span class="chip chip-new">${newC} nuevos</span>${dupC?`<span class="chip chip-dup">${dupC} duplicados</span>`:''}${skipC?`<span class="chip chip-skip">${skipC} sin ID</span>`:''}`;
+  document.getElementById('import-preview').style.display='block';document.getElementById('import-result').style.display='none';
+  window._importData=preview;
+};
+window.executeImport=async function(){
+  const toImport=(window._importData||[]).filter(r=>!r.isDup);
+  if(!toImport.length){alert('No hay clientes nuevos para importar');return;}
+  const btn=document.getElementById('import-btn');
+  btn.innerHTML='<span class="spinner"></span>Importando...';btn.disabled=true;
+  let count=0;
+  for(const r of toImport){
+    const data={name:r.name,lastname:r.lastname,email:r.email,phone:r.phone,birthday:r.birthday,plan:r.plan,activacion:r.activacion,vencimiento:r.vencimiento,points:r.points,lastVisit:'',history:[],discountsUsed:{}};
+    await setDoc(doc(db,'clients',r.uid),data);
+    clients.push({id:r.uid,...data});count++;
+  }
+  btn.innerHTML='Importar clientes nuevos';btn.disabled=false;
+  const res=document.getElementById('import-result');
+  res.textContent='✓ Se importaron '+count+' clientes a Firebase correctamente.';res.style.display='block';
+  renderDashboard();
+};
+window.resetImport=function(){csvRows=[];csvHeaders=[];document.getElementById('csv-file').value='';document.getElementById('import-mapping').style.display='none';document.getElementById('import-preview').style.display='none';}
+
 document.getElementById('pwd-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 </script>
 </body>
