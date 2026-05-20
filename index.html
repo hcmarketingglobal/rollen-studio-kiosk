@@ -10,8 +10,7 @@
 :root{--rs-black:#030303;--rs-blue:#2D45EA;--rs-grey:#A5A5A5;--rs-white:#FFFFFF;--rs-card:#161616;--rs-border:rgba(255,255,255,0.07)}
 body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var(--rs-white)}
 .kiosk{max-width:680px;margin:0 auto;min-height:100vh;background:var(--rs-black)}
-.screen{display:none}
-.screen.active{display:flex;flex-direction:column}
+.screen{display:none}.screen.active{display:flex;flex-direction:column}
 .idle-screen{min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden}
 .idle-bg{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,69,234,0.15) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 .idle-logo{font-size:11px;letter-spacing:4px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:3rem}
@@ -25,6 +24,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 .idle-btn{background:var(--rs-white);border:none;padding:0 24px;cursor:pointer;color:var(--rs-black);font-size:20px;font-weight:700;transition:background 0.15s}
 .idle-btn:hover{background:#e0e0e0}
 .idle-error{font-size:13px;color:#ff4f4f;margin-bottom:1rem;display:none}
+.loading-msg{font-size:13px;color:var(--rs-grey);margin-bottom:1rem;display:none}
 .reward-tease{display:flex;justify-content:center;gap:16px;margin-top:2rem;flex-wrap:wrap}
 .reward-tease-item{text-align:center;padding:14px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;min-width:90px}
 .rt-visits{font-size:26px;font-weight:700;color:var(--rs-blue)}
@@ -72,10 +72,8 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 .reto-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .reto-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase}
 .reto-prize{font-size:12px;color:#ffd700;font-weight:600;letter-spacing:1px}
-.reto-progress-track{height:6px;background:rgba(255,255,255,0.08);border-radius:0;overflow:hidden;margin-bottom:8px}
+.reto-progress-track{height:6px;background:rgba(255,255,255,0.08);overflow:hidden;margin-bottom:8px}
 .reto-progress-fill{height:100%;background:linear-gradient(90deg,var(--rs-blue),#7c3aed);transition:width 0.6s}
-.reto-stats{display:flex;justify-content:space-between;align-items:center}
-.reto-count{font-size:22px;font-weight:700;color:var(--rs-white)}
 .reto-complete{font-size:12px;color:#ffd700;font-weight:600;display:none}
 .reto-complete.show{display:block}
 .discount-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -134,6 +132,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
       <button class="idle-btn" onclick="doLookup()">→</button>
     </div>
     <div class="idle-error" id="idle-error">Usuario no encontrado. Intenta de nuevo.</div>
+    <div class="loading-msg" id="loading-msg">Buscando...</div>
     <div class="reward-tease">
       <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">20</div><div class="rt-disc">10% desc.</div></div>
       <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">50</div><div class="rt-disc">15% desc.</div></div>
@@ -141,7 +140,6 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
       <div class="reward-tease-item"><div class="rt-label">Reto mes</div><div class="rt-visits" style="color:#ffd700">20</div><div class="rt-disc">👕 Tshirt</div></div>
     </div>
   </div>
-
   <div id="screen-profile" class="screen profile-screen">
     <div class="profile-header">
       <div class="profile-header-top">
@@ -152,107 +150,57 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
       <div class="profile-id" id="p-id">—</div>
     </div>
     <div class="profile-body">
-      <div class="bday-banner" id="bday-banner">
-        <div class="bday-icon">🎂</div>
-        <div class="bday-text">
-          <div class="bday-title" id="bday-title">¡Feliz cumpleaños!</div>
-          <div class="bday-sub">Hoy es tu día — el equipo de Rollen te desea lo mejor 💙</div>
-        </div>
-      </div>
+      <div class="bday-banner" id="bday-banner"><div class="bday-icon">🎂</div><div class="bday-text"><div class="bday-title" id="bday-title">¡Feliz cumpleaños!</div><div class="bday-sub">Hoy es tu día — el equipo de Rollen te desea lo mejor 💙</div></div></div>
       <div class="success-banner" id="success-banner"></div>
-      <div class="code-display" id="code-display">
-        <div class="code-label">Código de descuento</div>
-        <div class="code-number" id="code-number">—</div>
-        <div class="code-discount" id="code-discount-label"></div>
-        <div class="code-sub">Muestra este código en recepción · Válido una sola vez</div>
-      </div>
-      <div class="checkin-confirm" id="checkin-confirm">
-        <div>
-          <div class="checkin-confirm-text">¿Registrar visita de hoy?</div>
-          <div class="checkin-confirm-sub">Se sumará +1 punto a tu cuenta</div>
-        </div>
-        <button class="confirm-btn" onclick="confirmCheckin()">Confirmar visita</button>
-      </div>
-      <div class="motive-card" id="motive-card">
-        <div class="motive-text" id="motive-text"></div>
-        <div class="motive-sub" id="motive-sub"></div>
-      </div>
-      <div class="card points-card">
-        <div><div class="points-num" id="p-points">0</div><div class="points-label">Visitas totales</div></div>
-        <div id="p-reward-block"></div>
-      </div>
-      <div class="card">
-        <div class="streak-row">
-          <div><div class="streak-num" id="streak-num">0🔥</div><div class="streak-label">Días seguidos</div></div>
-          <div style="flex:1;padding-left:16px;">
-            <div style="font-size:12px;color:var(--rs-grey);margin-bottom:8px;" id="streak-msg"></div>
-            <div class="streak-dots" id="streak-dots"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="reto-header"><span class="reto-title">Reto del mes</span><span class="reto-prize">👕 Tshirt Rollen</span></div>
-        <div class="reto-progress-track"><div class="reto-progress-fill" id="reto-fill"></div></div>
-        <div class="reto-stats">
-          <div><span class="reto-count" id="reto-count">0</span><span style="font-size:13px;color:var(--rs-grey);"> / 20 visitas este mes</span></div>
-          <div class="reto-complete" id="reto-complete">¡Meta alcanzada! 🎉</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="discount-header"><span class="discount-title">Mis descuentos</span></div>
-        <div class="discount-levels" id="discount-levels"></div>
-      </div>
-      <div class="card" id="p-progress-section">
-        <div class="progress-header"><span class="progress-title">Próximo nivel</span><span class="progress-next" id="p-progress-next"></span></div>
-        <div class="progress-track"><div class="progress-fill" id="p-progress-fill"></div></div>
-        <div class="progress-sub" id="p-progress-sub"></div>
-      </div>
-      <div class="card">
-        <div class="rewards-title">Niveles de recompensa</div>
+      <div class="code-display" id="code-display"><div class="code-label">Código de descuento</div><div class="code-number" id="code-number">—</div><div class="code-discount" id="code-discount-label"></div><div class="code-sub">Muestra este código en recepción · Válido una sola vez</div></div>
+      <div class="checkin-confirm" id="checkin-confirm"><div><div class="checkin-confirm-text">¿Registrar visita de hoy?</div><div class="checkin-confirm-sub">Se sumará +1 punto a tu cuenta</div></div><button class="confirm-btn" onclick="confirmCheckin()">Confirmar visita</button></div>
+      <div class="motive-card"><div class="motive-text" id="motive-text"></div><div class="motive-sub" id="motive-sub"></div></div>
+      <div class="card points-card"><div><div class="points-num" id="p-points">0</div><div class="points-label">Visitas totales</div></div><div id="p-reward-block"></div></div>
+      <div class="card"><div class="streak-row"><div><div class="streak-num" id="streak-num">0🔥</div><div class="streak-label">Días seguidos</div></div><div style="flex:1;padding-left:16px;"><div style="font-size:12px;color:var(--rs-grey);margin-bottom:8px;" id="streak-msg"></div><div class="streak-dots" id="streak-dots"></div></div></div></div>
+      <div class="card"><div class="reto-header"><span class="reto-title">Reto del mes</span><span class="reto-prize">👕 Tshirt Rollen</span></div><div class="reto-progress-track"><div class="reto-progress-fill" id="reto-fill"></div></div><div style="display:flex;justify-content:space-between;align-items:center;"><div><span style="font-size:22px;font-weight:700;" id="reto-count">0</span><span style="font-size:13px;color:var(--rs-grey);"> / 20 visitas este mes</span></div><div class="reto-complete" id="reto-complete">¡Meta alcanzada! 🎉</div></div></div>
+      <div class="card"><div class="discount-header"><span class="discount-title">Mis descuentos</span></div><div class="discount-levels" id="discount-levels"></div></div>
+      <div class="card" id="p-progress-section"><div class="progress-header"><span class="progress-title">Próximo nivel</span><span class="progress-next" id="p-progress-next"></span></div><div class="progress-track"><div class="progress-fill" id="p-progress-fill"></div></div><div class="progress-sub" id="p-progress-sub"></div></div>
+      <div class="card"><div class="rewards-title">Niveles de recompensa</div>
         <div class="reward-row" id="rr-20"><div class="rr-visits">20</div><div class="rr-info"><div class="rr-disc">10% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-20"></span></div>
         <div class="reward-row" id="rr-50"><div class="rr-visits">50</div><div class="rr-info"><div class="rr-disc">15% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-50"></span></div>
         <div class="reward-row" id="rr-100"><div class="rr-visits">100</div><div class="rr-info"><div class="rr-disc">20% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-100"></span></div>
       </div>
-      <div class="card">
-        <div class="history-title">Últimas visitas</div>
-        <div id="p-history"></div>
-      </div>
+      <div class="card"><div class="history-title">Últimas visitas</div><div id="p-history"></div></div>
     </div>
   </div>
 </div>
-<script>
-const STORAGE_KEY='rollen_clients_v2';
-let clients=[],activeClient=null;
-function loadData(){
-  try{const r=localStorage.getItem(STORAGE_KEY);if(r)clients=JSON.parse(r);}catch(e){clients=[];}
-  if(!clients.length){
-    clients=[
-      {id:'1001',name:'Ana',lastname:'García',email:'ana@correo.com',phone:'664 100 0001',points:22,lastVisit:'2026-05-15',history:['2026-05-15','2026-05-10','2026-05-03','2026-04-28','2026-04-20'],birthday:'1995-05-19',discountsUsed:{}},
-      {id:'1002',name:'Carlos',lastname:'Mendez',email:'carlos@correo.com',phone:'664 100 0002',points:54,lastVisit:'2026-05-17',history:['2026-05-17','2026-05-14','2026-05-11','2026-05-08','2026-05-04','2026-04-30'],birthday:'1990-08-22',discountsUsed:{}},
-      {id:'1003',name:'Sofia',lastname:'Ruiz',email:'sofia@correo.com',phone:'664 100 0003',points:8,lastVisit:'2026-05-10',history:['2026-05-10','2026-05-05'],birthday:'2000-03-15',discountsUsed:{}},
-    ];
-    saveData();
-  }
-}
-function saveData(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(clients));}catch(e){}}
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDJqCQQNKPnvyj8I6dGGoNkSeKbwcmaOXU",
+  authDomain: "rollen-rewards.firebaseapp.com",
+  projectId: "rollen-rewards",
+  storageBucket: "rollen-rewards.firebasestorage.app",
+  messagingSenderId: "49456537645",
+  appId: "1:49456537645:web:042794868f2cd1763658a4"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let activeClient = null;
+
 function fullName(c){return c.lastname?c.name+' '+c.lastname:c.name;}
-function getReward(p){if(p>=100)return{pct:'20%',level:'100'};if(p>=50)return{pct:'15%',level:'50'};if(p>=20)return{pct:'10%',level:'20'};return null;}
+function getReward(p){if(p>=100)return'20%';if(p>=50)return'15%';if(p>=20)return'10%';return null;}
 function progressPct(p){if(p>=100)return 100;if(p>=50)return Math.round(((p-50)/50)*100);if(p>=20)return Math.round(((p-20)/30)*100);return Math.round((p/20)*100);}
 function getNextInfo(p){if(p<20)return{next:20,label:'10% descuento',remaining:20-p};if(p<50)return{next:50,label:'15% descuento',remaining:50-p};if(p<100)return{next:100,label:'20% descuento',remaining:100-p};return null;}
-function formatDate(d){if(!d)return'—';const[y,m,day]=d.split('-');const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return day+' '+months[parseInt(m)-1]+' '+y;}
+function formatDate(d){if(!d)return'—';try{const[y,m,day]=d.split('-');const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return day+' '+months[parseInt(m)-1]+' '+y;}catch(e){return d;}}
 function isBirthday(c){if(!c.birthday)return false;const today=new Date();const[,bm,bd]=c.birthday.split('-');return parseInt(bm)===(today.getMonth()+1)&&parseInt(bd)===today.getDate();}
 function getStreak(history){
   if(!history||!history.length)return 0;
   const days=[...new Set(history)].sort((a,b)=>b.localeCompare(a));
   if(!days.length)return 0;
   const today=new Date();today.setHours(0,0,0,0);
-  const msDay=86400000;
   let streak=0;
-  for(let i=0;i<days.length;i++){
-    const d=new Date(days[i]);d.setHours(0,0,0,0);
-    const diff=Math.round((today-d)/msDay);
-    if(diff===i)streak++;else break;
-  }
+  for(let i=0;i<days.length;i++){const d=new Date(days[i]);d.setHours(0,0,0,0);const diff=Math.round((today-d)/86400000);if(diff===i)streak++;else break;}
   return streak;
 }
 function getMonthVisits(history){
@@ -262,46 +210,54 @@ function getMonthVisits(history){
 }
 function getMotivation(c){
   const p=c.points,streak=getStreak(c.history||[]);
-  if(isBirthday(c))return{text:'¡Hoy es tu dia especial! Gracias por ser parte de Rollen Studio.',sub:'El equipo te celebra'};
+  if(isBirthday(c))return{text:'Hoy es tu dia especial! Gracias por ser parte de Rollen Studio.',sub:'El equipo te celebra'};
   if(streak>=10)return{text:'Eres una maquina! '+streak+' dias seguidos sin parar.',sub:'La consistencia es tu superpoder'};
   if(streak>=3)return{text:'Llevas '+streak+' dias seguidos. Sigue asi!',sub:'La rutina construye resultados'};
-  if(p>=50)return{text:'Eres de nuestros clientes mas dedicados. Se nota el esfuerzo!',sub:p+' visitas hablan por si solas'};
+  if(p>=50)return{text:'Eres de nuestros clientes mas dedicados.',sub:p+' visitas hablan por si solas'};
   if(p>=20)return{text:'Ya desbloqueaste tu primer descuento. Sigue acumulando!',sub:'El siguiente nivel esta a tu alcance'};
   if(p>=10)return{text:'Vas muy bien, '+c.name+'. '+(20-p)+' visitas mas para tu primer descuento!',sub:'Cada clase cuenta'};
-  return{text:'Bienvenido a Rollen Studio, '+c.name+'. Empieza a acumular puntos!',sub:'Cada visita te acerca a un beneficio'};
+  return{text:'Bienvenido a Rollen Studio, '+c.name+'!',sub:'Cada visita te acerca a un beneficio'};
 }
 function generateCode(){return Math.floor(100000+Math.random()*900000).toString();}
-function doLookup(){
+
+async function doLookup(){
   const val=document.getElementById('idle-input').value.trim();
   const err=document.getElementById('idle-error');
+  const loading=document.getElementById('loading-msg');
   err.style.display='none';
   if(!val)return;
-  const client=clients.find(c=>c.id===val);
-  if(!client){err.style.display='block';return;}
-  activeClient=client;
-  showProfile(client,true);
+  loading.style.display='block';
+  try{
+    const docRef=doc(db,'clients',val);
+    const docSnap=await getDoc(docRef);
+    loading.style.display='none';
+    if(!docSnap.exists()){err.style.display='block';return;}
+    activeClient={id:val,...docSnap.data()};
+    showProfile(activeClient,true);
+  }catch(e){loading.style.display='none';err.textContent='Error al conectar. Intenta de nuevo.';err.style.display='block';}
 }
+
 function showProfile(client,showCheckin){
   document.getElementById('screen-idle').classList.remove('active');
   document.getElementById('screen-profile').classList.add('active');
   document.getElementById('p-name').textContent=fullName(client);
   document.getElementById('p-id').textContent='Usuario #'+client.id;
-  document.getElementById('p-points').textContent=client.points;
+  document.getElementById('p-points').textContent=client.points||0;
   const bday=document.getElementById('bday-banner');
   if(isBirthday(client)){document.getElementById('bday-title').textContent='Feliz cumpleanos, '+client.name+'!';bday.classList.add('show');}else{bday.classList.remove('show');}
   const m=getMotivation(client);
   document.getElementById('motive-text').textContent=m.text;
   document.getElementById('motive-sub').textContent=m.sub;
-  const reward=getReward(client.points);
+  const reward=getReward(client.points||0);
   const rb=document.getElementById('p-reward-block');
-  rb.innerHTML=reward?'<div class="reward-disc">'+reward.pct+'</div><div class="reward-label">descuento activo</div>':'<div class="no-reward-lbl">Sin descuento<br>aun</div>';
+  rb.innerHTML=reward?'<div class="reward-disc">'+reward+'</div><div class="reward-label">descuento activo</div>':'<div class="no-reward-lbl">Sin descuento<br>aun</div>';
   const streak=getStreak(client.history||[]);
   document.getElementById('streak-num').textContent=streak+'🔥';
-  document.getElementById('streak-msg').textContent=streak>=1?'Llevas '+streak+' dia'+(streak!==1?'s':'')+' consecutivos. Sigue asi!':'Ven hoy para empezar tu racha';
+  document.getElementById('streak-msg').textContent=streak>=1?'Llevas '+streak+' dia'+(streak!==1?'s':'')+' consecutivos!':'Ven hoy para empezar tu racha';
   const dotsEl=document.getElementById('streak-dots');
   const now=new Date();
   const dayNames=['L','M','X','J','V','S','D'];
-  const histSet=new Set((client.history||[]).map(d=>d));
+  const histSet=new Set((client.history||[]));
   let dotsHTML='';
   for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];const isToday=i===0;const done=histSet.has(ds);dotsHTML+='<div class="streak-dot'+(done?' done':isToday?' current':'')+'">'+dayNames[d.getDay()===0?6:d.getDay()-1]+'</div>';}
   dotsEl.innerHTML=dotsHTML;
@@ -309,61 +265,76 @@ function showProfile(client,showCheckin){
   const retoPct=Math.min(100,Math.round((monthVisits/20)*100));
   document.getElementById('reto-fill').style.width=retoPct+'%';
   document.getElementById('reto-count').textContent=monthVisits;
-  const retoComplete=document.getElementById('reto-complete');
-  monthVisits>=20?retoComplete.classList.add('show'):retoComplete.classList.remove('show');
+  monthVisits>=20?document.getElementById('reto-complete').classList.add('show'):document.getElementById('reto-complete').classList.remove('show');
   const discLevels=[{pct:'10%',visits:20,label:'10% de descuento'},{pct:'15%',visits:50,label:'15% de descuento'},{pct:'20%',visits:100,label:'20% de descuento'}];
   const discContainer=document.getElementById('discount-levels');
   if(!client.discountsUsed)client.discountsUsed={};
   discContainer.innerHTML=discLevels.map(dl=>{
-    const earned=client.points>=dl.visits;
-    const used=client.discountsUsed[dl.pct];
+    const earned=(client.points||0)>=dl.visits;
+    const used=client.discountsUsed&&client.discountsUsed[dl.pct];
     let actionHTML='';
-    if(!earned){actionHTML='<span class="lock-badge">'+(dl.visits-client.points)+' mas</span>';}
+    if(!earned){actionHTML='<span class="lock-badge">'+(dl.visits-(client.points||0))+' mas</span>';}
     else if(used){actionHTML='<div style="text-align:right"><div class="used-badge">USADO</div><div style="font-size:10px;color:var(--rs-grey);">'+used+'</div></div>';}
     else{actionHTML='<button class="use-btn" onclick="useDiscount(\''+dl.pct+'\',\''+dl.label+'\')">Usar</button>';}
-    return '<div class="discount-level '+(earned?'earned':'locked')+'"><div class="dl-info"><div class="dl-pct">'+dl.pct+'</div><div class="dl-visits">'+dl.label+'</div></div>'+actionHTML+'</div>';
+    return'<div class="discount-level '+(earned?'earned':'locked')+'"><div class="dl-info"><div class="dl-pct">'+dl.pct+'</div><div class="dl-visits">'+dl.label+'</div></div>'+actionHTML+'</div>';
   }).join('');
-  const next=getNextInfo(client.points);
+  const next=getNextInfo(client.points||0);
   const ps=document.getElementById('p-progress-section');
-  if(next){ps.style.display='block';document.getElementById('p-progress-next').textContent=next.label;document.getElementById('p-progress-fill').style.width=progressPct(client.points)+'%';document.getElementById('p-progress-sub').textContent='Faltan '+next.remaining+' visita'+(next.remaining!==1?'s':'')+' para tu proximo nivel';}else{ps.style.display='none';}
-  [20,50,100].forEach(t=>{const row=document.getElementById('rr-'+t),badge=document.getElementById('rs-'+t);if(client.points>=t){row.classList.add('earned');badge.className='rr-status status-earned';badge.textContent='Activo';}else{row.classList.remove('earned');badge.className='rr-status status-locked';badge.textContent='Bloqueado';}});
+  if(next){ps.style.display='block';document.getElementById('p-progress-next').textContent=next.label;document.getElementById('p-progress-fill').style.width=progressPct(client.points||0)+'%';document.getElementById('p-progress-sub').textContent='Faltan '+next.remaining+' visita'+(next.remaining!==1?'s':'')+' para tu proximo nivel';}else{ps.style.display='none';}
+  [20,50,100].forEach(t=>{const row=document.getElementById('rr-'+t),badge=document.getElementById('rs-'+t);if((client.points||0)>=t){row.classList.add('earned');badge.className='rr-status status-earned';badge.textContent='Activo';}else{row.classList.remove('earned');badge.className='rr-status status-locked';badge.textContent='Bloqueado';}});
   const hist=document.getElementById('p-history');
-  const visits=client.history||(client.lastVisit?[client.lastVisit]:[]);
-  hist.innerHTML=visits.length?visits.slice(0,6).map(d=>'<div class="history-item"><span class="history-date">'+formatDate(d)+'</span><span class="history-pts">+1 punto</span></div>').join(''):'<div style="font-size:13px;color:#A5A5A5;padding:8px 0;">Sin visitas registradas aun</div>';
+  const visits=client.history||[];
+  hist.innerHTML=visits.length?[...visits].sort((a,b)=>b.localeCompare(a)).slice(0,6).map(d=>'<div class="history-item"><span class="history-date">'+formatDate(d)+'</span><span class="history-pts">+1 punto</span></div>').join(''):'<div style="font-size:13px;color:#A5A5A5;padding:8px 0;">Sin visitas registradas aun</div>';
   document.getElementById('code-display').classList.remove('show');
   const confirmEl=document.getElementById('checkin-confirm');
   const successEl=document.getElementById('success-banner');
   successEl.classList.remove('show');
-  if(showCheckin){const today=new Date().toISOString().split('T')[0];const alreadyToday=(client.history||[]).includes(today)||client.lastVisit===today;if(alreadyToday){confirmEl.classList.remove('show');successEl.textContent='Ya registraste tu visita hoy. Gracias por venir!';successEl.classList.add('show');}else{confirmEl.classList.add('show');}}else{confirmEl.classList.remove('show');}
+  if(showCheckin){
+    const today=new Date().toISOString().split('T')[0];
+    const alreadyToday=(client.history||[]).includes(today);
+    if(alreadyToday){confirmEl.classList.remove('show');successEl.textContent='Ya registraste tu visita hoy. Gracias por venir!';successEl.classList.add('show');}
+    else{confirmEl.classList.add('show');}
+  }else{confirmEl.classList.remove('show');}
 }
-function useDiscount(pct,label){
+
+async function confirmCheckin(){
   if(!activeClient)return;
-  const c=clients.find(x=>x.id===activeClient.id);
-  if(!c.discountsUsed)c.discountsUsed={};
+  const today=new Date().toISOString().split('T')[0];
+  try{
+    const docRef=doc(db,'clients',activeClient.id);
+    await updateDoc(docRef,{points:(activeClient.points||0)+1,lastVisit:today,history:arrayUnion(today)});
+    activeClient.points=(activeClient.points||0)+1;
+    activeClient.lastVisit=today;
+    if(!activeClient.history)activeClient.history=[];
+    if(!activeClient.history.includes(today))activeClient.history.push(today);
+    document.getElementById('checkin-confirm').classList.remove('show');
+    const sb=document.getElementById('success-banner');
+    sb.textContent='Visita registrada. Ahora tienes '+activeClient.points+' punto'+(activeClient.points!==1?'s':'')+'. Gracias!';
+    sb.classList.add('show');
+    showProfile(activeClient,false);
+    setTimeout(goBack,6000);
+  }catch(e){alert('Error al guardar. Intenta de nuevo.');}
+}
+
+window.useDiscount=async function(pct,label){
+  if(!activeClient)return;
   const code=generateCode();
   const today=new Date().toLocaleDateString('es-MX');
-  c.discountsUsed[pct]=code+' · '+today;
-  saveData();activeClient=c;
-  document.getElementById('code-number').textContent=code;
-  document.getElementById('code-discount-label').textContent=label+' — presenta en recepcion';
-  document.getElementById('code-display').classList.add('show');
-  showProfile(c,false);
-}
-function confirmCheckin(){
-  if(!activeClient)return;
-  const c=clients.find(x=>x.id===activeClient.id);
-  const today=new Date().toISOString().split('T')[0];
-  c.points++;c.lastVisit=today;
-  if(!c.history)c.history=[];
-  c.history.unshift(today);
-  saveData();activeClient=c;
-  document.getElementById('checkin-confirm').classList.remove('show');
-  const sb=document.getElementById('success-banner');
-  sb.textContent='Visita registrada. Ahora tienes '+c.points+' punto'+(c.points!==1?'s':'')+'. Gracias!';
-  sb.classList.add('show');
-  showProfile(c,false);
-  setTimeout(goBack,6000);
-}
+  const discountsUsed=activeClient.discountsUsed||{};
+  discountsUsed[pct]=code+' · '+today;
+  try{
+    const docRef=doc(db,'clients',activeClient.id);
+    await updateDoc(docRef,{discountsUsed});
+    activeClient.discountsUsed=discountsUsed;
+    document.getElementById('code-number').textContent=code;
+    document.getElementById('code-discount-label').textContent=label+' — presenta en recepcion';
+    document.getElementById('code-display').classList.add('show');
+    showProfile(activeClient,false);
+  }catch(e){alert('Error al generar codigo.');}
+};
+
+window.confirmCheckin=confirmCheckin;
+
 function goBack(){
   activeClient=null;
   document.getElementById('code-display').classList.remove('show');
@@ -372,7 +343,8 @@ function goBack(){
   document.getElementById('idle-input').value='';
   document.getElementById('idle-error').style.display='none';
 }
-loadData();
+window.goBack=goBack;
+window.doLookup=doLookup;
 </script>
 </body>
 </html>
