@@ -11,40 +11,38 @@
 body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var(--rs-white)}
 .kiosk{max-width:680px;margin:0 auto;min-height:100vh;background:var(--rs-black)}
 .screen{display:none}.screen.active{display:flex;flex-direction:column}
+
+/* IDLE */
 .idle-screen{min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden}
-.idle-bg{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,69,234,0.15) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.idle-logo{font-size:11px;letter-spacing:4px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:3rem}
-.idle-title{font-size:48px;font-weight:700;letter-spacing:-1px;line-height:1.05;margin-bottom:1rem}
+.idle-bg{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,69,234,0.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.idle-logo-label{font-size:11px;letter-spacing:4px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:2rem}
+.idle-title{font-size:44px;font-weight:700;letter-spacing:-1px;line-height:1.05;margin-bottom:1rem}
 .idle-title span{color:var(--rs-blue)}
-.idle-sub{font-size:15px;color:var(--rs-grey);margin-bottom:3rem;font-weight:300}
-.idle-input-wrap{display:flex;max-width:340px;margin:0 auto 1rem;border:1px solid rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;transition:border-color 0.2s}
+.idle-sub{font-size:15px;color:var(--rs-grey);margin-bottom:2rem;font-weight:300}
+.idle-input-wrap{display:flex;max-width:340px;margin:0 auto 0.75rem;border:1px solid rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;transition:border-color 0.2s}
 .idle-input-wrap:focus-within{border-color:var(--rs-blue)}
 .idle-input{flex:1;background:rgba(255,255,255,0.05);border:none;outline:none;padding:16px 20px;font-size:20px;color:var(--rs-white);font-family:'Space Grotesk',sans-serif;letter-spacing:2px;text-align:center}
 .idle-input::placeholder{color:rgba(255,255,255,0.25);font-size:15px;letter-spacing:1px}
-.idle-btn{background:var(--rs-white);border:none;padding:0 24px;cursor:pointer;color:var(--rs-black);font-size:20px;font-weight:700;transition:background 0.15s}
-.idle-btn:hover{background:#e0e0e0}
-.idle-error{font-size:13px;color:#ff4f4f;margin-bottom:1rem;display:none}
-.loading-msg{font-size:13px;color:var(--rs-grey);margin-bottom:1rem;display:none}
-.reward-tease{display:flex;justify-content:center;gap:16px;margin-top:2rem;flex-wrap:wrap}
-.reward-tease-item{text-align:center;padding:14px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;min-width:90px}
-.rt-visits{font-size:26px;font-weight:700;color:var(--rs-blue)}
+.idle-btn{background:var(--rs-white);border:none;padding:0 24px;cursor:pointer;color:var(--rs-black);font-size:20px;font-weight:700}
+.idle-error{font-size:13px;color:#ff4f4f;margin-bottom:0.5rem;display:none}
+.loading-msg{font-size:13px;color:var(--rs-grey);margin-bottom:0.5rem;display:none}
+.reward-tease{display:flex;justify-content:center;gap:14px;margin-top:2rem;flex-wrap:wrap}
+.reward-tease-item{text-align:center;padding:12px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;min-width:85px}
+.rt-visits{font-size:24px;font-weight:700;color:var(--rs-blue)}
 .rt-label{font-size:10px;color:var(--rs-grey);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px}
 .rt-disc{font-size:12px;color:var(--rs-white);font-weight:500;margin-top:3px}
+
+/* PROFILE */
 .profile-screen{min-height:100vh;flex-direction:column}
 .profile-header{background:var(--rs-blue);padding:1.5rem 2rem 1.25rem}
 .profile-header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
-.profile-brand{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase}
 .back-btn{background:rgba(0,0,0,0.25);border:none;color:white;padding:6px 14px;border-radius:2px;font-size:12px;cursor:pointer;font-family:'Space Grotesk',sans-serif;letter-spacing:1px}
-.back-btn:hover{background:rgba(0,0,0,0.4)}
 .profile-name{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.1;margin-bottom:3px}
 .profile-id{font-size:12px;color:rgba(255,255,255,0.6);letter-spacing:2px}
 .profile-body{padding:1.25rem 1.5rem;flex:1}
 .card{background:var(--rs-card);border:1px solid var(--rs-border);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:10px}
 .bday-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(45,69,234,0.4);border-radius:4px;padding:1rem 1.5rem;margin-bottom:10px;display:none;align-items:center;gap:14px}
 .bday-banner.show{display:flex}
-.bday-icon{font-size:28px}
-.bday-title{font-size:15px;font-weight:600;color:var(--rs-white)}
-.bday-sub{font-size:12px;color:var(--rs-grey);margin-top:2px}
 .motive-card{border-left:3px solid var(--rs-blue);background:var(--rs-card);border-radius:0 4px 4px 0;padding:1rem 1.25rem;margin-bottom:10px}
 .motive-text{font-size:14px;color:var(--rs-white);font-weight:500;line-height:1.5}
 .motive-sub{font-size:12px;color:var(--rs-grey);margin-top:4px}
@@ -52,8 +50,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 .checkin-confirm.show{display:flex}
 .checkin-confirm-text{font-size:14px;font-weight:600;color:var(--rs-black)}
 .checkin-confirm-sub{font-size:12px;color:#555;margin-top:2px}
-.confirm-btn{background:var(--rs-blue);color:#fff;border:none;padding:12px 20px;border-radius:2px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;white-space:nowrap;transition:background 0.15s}
-.confirm-btn:hover{background:#1e32c8}
+.confirm-btn{background:var(--rs-blue);color:#fff;border:none;padding:12px 20px;border-radius:2px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;white-space:nowrap}
 .success-banner{background:#0d1a0d;border:1px solid rgba(0,200,80,0.3);border-radius:4px;padding:1rem 1.5rem;font-size:14px;color:#4dff88;margin-bottom:10px;display:none;text-align:center}
 .success-banner.show{display:block}
 .points-card{display:flex;align-items:center;justify-content:space-between}
@@ -71,24 +68,20 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 .streak-dot.current{background:#ff6b35;border-color:#ff6b35;color:white}
 .reto-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .reto-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase}
-.reto-prize{font-size:12px;color:#ffd700;font-weight:600;letter-spacing:1px}
+.reto-prize{font-size:12px;color:#ffd700;font-weight:600}
 .reto-progress-track{height:6px;background:rgba(255,255,255,0.08);overflow:hidden;margin-bottom:8px}
 .reto-progress-fill{height:100%;background:linear-gradient(90deg,var(--rs-blue),#7c3aed);transition:width 0.6s}
 .reto-complete{font-size:12px;color:#ffd700;font-weight:600;display:none}
 .reto-complete.show{display:block}
-.discount-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.discount-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase}
 .discount-levels{display:flex;flex-direction:column;gap:8px}
 .discount-level{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid rgba(255,255,255,0.08);border-radius:4px}
 .discount-level.earned{border-color:rgba(45,69,234,0.3)}
 .discount-level.locked{opacity:0.4}
-.dl-info{display:flex;align-items:center;gap:10px}
 .dl-pct{font-size:20px;font-weight:700;color:var(--rs-blue)}
 .dl-visits{font-size:12px;color:var(--rs-grey)}
-.use-btn{background:var(--rs-blue);color:white;border:none;padding:7px 16px;border-radius:2px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background 0.15s}
-.use-btn:hover{background:#1e32c8}
-.used-badge{font-size:11px;color:var(--rs-grey);letter-spacing:1px;padding:7px 0}
-.lock-badge{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px}
+.use-btn{background:var(--rs-blue);color:white;border:none;padding:7px 16px;border-radius:2px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif}
+.used-badge{font-size:11px;color:var(--rs-grey)}
+.lock-badge{font-size:11px;color:rgba(255,255,255,0.2)}
 .code-display{background:#0a0a2e;border:1px solid rgba(45,69,234,0.4);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:10px;text-align:center;display:none}
 .code-display.show{display:block}
 .code-label{font-size:10px;letter-spacing:3px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:8px}
@@ -107,136 +100,67 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 .reward-row.earned .rr-visits{color:var(--rs-blue)}
 .reward-row.earned .rr-disc{color:var(--rs-white)}
 .rr-visits{font-size:20px;font-weight:700;color:rgba(255,255,255,0.2);min-width:40px}
-.rr-info{flex:1}
 .rr-disc{font-size:14px;font-weight:600;color:rgba(255,255,255,0.3)}
 .rr-sub{font-size:11px;color:var(--rs-grey);margin-top:1px}
 .rr-status{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:2px}
 .status-earned{background:rgba(45,69,234,0.2);color:var(--rs-blue)}
 .status-locked{background:rgba(255,255,255,0.05);color:var(--rs-grey)}
 .history-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:10px}
-.history-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px}
+.history-item{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px}
 .history-item:last-child{border-bottom:none}
 .history-date{color:var(--rs-grey)}
 .history-pts{color:var(--rs-blue);font-weight:600}
-
-/* CELEBRATION */
-.celebration-overlay{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;overflow:hidden}
-.celebration-overlay.show{display:block}
-.confetti-piece{position:absolute;border-radius:2px;animation:fall linear forwards}
-@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
-.celebration-text{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
-@keyframes popIn{0%{transform:translate(-50%,-50%) scale(0)}100%{transform:translate(-50%,-50%) scale(1)}}
-.cel-emoji{font-size:72px;display:block;margin-bottom:10px}
-.cel-msg{font-size:20px;font-weight:700;color:#fff;background:rgba(45,69,234,0.92);padding:14px 28px;border-radius:8px;backdrop-filter:blur(6px)}
-
-/* IDLE SLIDES */
-.idle-slides-wrap{display:flex;flex-direction:column;flex:1;position:relative}
-.slide{display:none;padding:1rem 2rem 0.5rem;animation:fadeIn 0.5s}
-.slide.active{display:block}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.slide-title{font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:14px;text-align:center}
-.slide-dots{display:flex;justify-content:center;gap:6px;padding:12px 0 16px}
-.slide-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);transition:background 0.3s;cursor:pointer}
-.slide-dot.active{background:var(--rs-blue)}
-
-/* RANKING */
-.ranking-list{display:flex;flex-direction:column;gap:7px}
-.ranking-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid rgba(255,255,255,0.06);border-radius:4px}
-.ranking-item.top1{border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.04)}
-.ranking-item.top2{border-color:rgba(192,192,192,0.3);background:rgba(192,192,192,0.03)}
-.ranking-item.top3{border-color:rgba(205,127,50,0.3);background:rgba(205,127,50,0.03)}
-.rank-pos{font-size:18px;min-width:28px;text-align:center;font-weight:700}
-.rank-name{flex:1;font-size:14px;font-weight:500}
-.rank-pts{font-size:13px;font-weight:600;color:var(--rs-blue)}
-.rank-streak{font-size:11px;color:#ff6b35;margin-left:4px}
-
-/* RETO SLIDE */
-.reto-slide-prize{font-size:18px;font-weight:700;color:#ffd700;margin-bottom:14px;text-align:center}
-.reto-slide-track{height:8px;background:rgba(255,255,255,0.08);overflow:hidden;margin-bottom:8px;border-radius:0}
-.reto-slide-fill{height:100%;background:linear-gradient(90deg,var(--rs-blue),#7c3aed);transition:width 0.6s}
-.reto-slide-sub{font-size:12px;color:var(--rs-grey);text-align:center;margin-bottom:12px}
-.reto-leader{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px}
-.reto-leader:last-child{border-bottom:none}
-
-/* REWARD TEASE */
-.reward-tease{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
-.reward-tease-item{text-align:center;padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;min-width:85px}
-.rt-visits{font-size:26px;font-weight:700;color:var(--rs-blue)}
-.rt-label{font-size:10px;color:var(--rs-grey);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px}
-.rt-disc{font-size:12px;color:var(--rs-white);font-weight:500;margin-top:3px}
 </style>
 </head>
 <body>
 <div class="kiosk">
+
+  <!-- IDLE -->
   <div id="screen-idle" class="screen active idle-screen">
     <div class="idle-bg"></div>
-    <div class="idle-logo" style="font-size:11px;letter-spacing:4px;color:var(--rs-grey);text-transform:uppercase;padding:1.5rem 2rem 0;text-align:center">Rollen Studio — Rewards</div>
-    <div style="padding:1rem 2rem 0.5rem;text-align:center">
-      <div class="idle-title" style="font-size:38px">Tu estudio.<br>Tus <span>beneficios</span>.</div>
-      <div class="idle-sub" style="font-size:13px;margin-bottom:1rem">Ingresa tu número de usuario</div>
-      <div class="idle-input-wrap">
-        <input class="idle-input" id="idle-input" type="text" placeholder="Número de usuario" maxlength="20" onkeydown="if(event.key==='Enter') doLookup()" />
-        <button class="idle-btn" onclick="doLookup()">→</button>
-      </div>
-      <div class="idle-error" id="idle-error">Usuario no encontrado. Intenta de nuevo.</div>
-      <div class="loading-msg" id="loading-msg">Buscando...</div>
+    <img src="https://hcmarketingglobal.github.io/rollen-studio-kiosk/rollen%20rewards%20logo.png" alt="Rollen Studio" style="height:86px;width:auto;object-fit:contain;display:block;margin:0 auto 1.5rem;position:relative;">
+    
+    <div class="idle-title">Tu estudio.<br>Tus <span>beneficios</span>.</div>
+    <div class="idle-sub">Ingresa tu número para ver tus puntos</div>
+    <div class="idle-input-wrap">
+      <input class="idle-input" id="idle-input" type="text" placeholder="Número de usuario" maxlength="20" onkeydown="if(event.key==='Enter') window.doLookup()" />
+      <button class="idle-btn" onclick="window.doLookup()">→</button>
     </div>
-    <div class="idle-slides-wrap">
-      <div class="slide active" id="slide-0">
-        <div class="slide-title">Niveles de recompensa</div>
-        <div class="reward-tease">
-          <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">20</div><div class="rt-disc">10% desc.</div></div>
-          <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">50</div><div class="rt-disc">15% desc.</div></div>
-          <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">100</div><div class="rt-disc">20% desc.</div></div>
-          <div class="reward-tease-item"><div class="rt-label">Reto mes</div><div class="rt-visits" style="color:#ffd700">20</div><div class="rt-disc">👕 Tshirt</div></div>
-        </div>
-      </div>
-      <div class="slide" id="slide-1">
-        <div class="slide-title">🏆 Top clientes del estudio</div>
-        <div class="ranking-list" id="ranking-visits"></div>
-      </div>
-      <div class="slide" id="slide-2">
-        <div class="reto-slide-prize">👕 Reto del mes — llega 20 veces y gana una Tshirt</div>
-        <div class="reto-slide-track"><div class="reto-slide-fill" id="reto-slide-fill"></div></div>
-        <div class="reto-slide-sub" id="reto-slide-sub"></div>
-        <div id="reto-slide-leaders"></div>
-      </div>
-      <div class="slide" id="slide-3">
-        <div class="slide-title">🔥 Rachas activas más largas</div>
-        <div class="ranking-list" id="ranking-streaks"></div>
-      </div>
-      <div class="slide" id="slide-4" style="text-align:center;display:none">
-        <div style="font-size:48px;margin-bottom:8px">🎂</div>
-        <div style="font-size:20px;font-weight:600;margin-bottom:4px" id="bday-slide-names"></div>
-        <div style="font-size:13px;color:var(--rs-grey)">¡El equipo de Rollen te celebra hoy!</div>
-      </div>
+    <div class="idle-error" id="idle-error">Usuario no encontrado. Intenta de nuevo.</div>
+    <div class="loading-msg" id="loading-msg">Buscando...</div>
+    <div class="reward-tease">
+      <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">20</div><div class="rt-disc">10% desc.</div></div>
+      <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">50</div><div class="rt-disc">15% desc.</div></div>
+      <div class="reward-tease-item"><div class="rt-label">Visitas</div><div class="rt-visits">100</div><div class="rt-disc">20% desc.</div></div>
+      <div class="reward-tease-item"><div class="rt-label">Reto mes</div><div class="rt-visits" style="color:#ffd700">20</div><div class="rt-disc">👕 Tshirt</div></div>
     </div>
-    <div class="slide-dots" id="slide-dots"></div>
   </div>
+
+  <!-- PROFILE -->
   <div id="screen-profile" class="screen profile-screen">
     <div class="profile-header">
       <div class="profile-header-top">
-        <img src="https://hcmarketingglobal.github.io/rollen-studio-kiosk/ROLLEN_LOGOTIPO%20SECUNDARIO%20BLANCO.png" alt="Rollen Studio" style="height:20px;width:auto;object-fit:contain;opacity:0.8;">
-        <button class="back-btn" onclick="goBack()">← Salir</button>
+        <img src="https://hcmarketingglobal.github.io/rollen-studio-kiosk/rollen%20rewards%20logo.png" alt="Rollen Studio" style="height:40px;width:auto;object-fit:contain;opacity:0.9;">
+        <button class="back-btn" onclick="window.goBack()">← Salir</button>
       </div>
       <div class="profile-name" id="p-name">—</div>
       <div class="profile-id" id="p-id">—</div>
     </div>
     <div class="profile-body">
-      <div class="bday-banner" id="bday-banner"><div class="bday-icon">🎂</div><div class="bday-text"><div class="bday-title" id="bday-title">¡Feliz cumpleaños!</div><div class="bday-sub">Hoy es tu día — el equipo de Rollen te desea lo mejor 💙</div></div></div>
+      <div class="bday-banner" id="bday-banner"><div style="font-size:28px">🎂</div><div><div style="font-size:15px;font-weight:600;" id="bday-title">¡Feliz cumpleaños!</div><div style="font-size:12px;color:var(--rs-grey);margin-top:2px">Hoy es tu día — el equipo de Rollen te desea lo mejor 💙</div></div></div>
       <div class="success-banner" id="success-banner"></div>
       <div class="code-display" id="code-display"><div class="code-label">Código de descuento</div><div class="code-number" id="code-number">—</div><div class="code-discount" id="code-discount-label"></div><div class="code-sub">Muestra este código en recepción · Válido una sola vez</div></div>
-      <div class="checkin-confirm" id="checkin-confirm"><div><div class="checkin-confirm-text">¿Registrar visita de hoy?</div><div class="checkin-confirm-sub">Se sumará +1 punto a tu cuenta</div></div><button class="confirm-btn" onclick="confirmCheckin()">Confirmar visita</button></div>
+      <div class="checkin-confirm" id="checkin-confirm"><div><div class="checkin-confirm-text">¿Registrar visita de hoy?</div><div class="checkin-confirm-sub">Se sumará +1 punto a tu cuenta</div></div><button class="confirm-btn" onclick="window.confirmCheckin()">Confirmar visita</button></div>
       <div class="motive-card"><div class="motive-text" id="motive-text"></div><div class="motive-sub" id="motive-sub"></div></div>
       <div class="card points-card"><div><div class="points-num" id="p-points">0</div><div class="points-label">Visitas totales</div></div><div id="p-reward-block"></div></div>
       <div class="card"><div class="streak-row"><div><div class="streak-num" id="streak-num">0🔥</div><div class="streak-label">Días seguidos</div></div><div style="flex:1;padding-left:16px;"><div style="font-size:12px;color:var(--rs-grey);margin-bottom:8px;" id="streak-msg"></div><div class="streak-dots" id="streak-dots"></div></div></div></div>
       <div class="card"><div class="reto-header"><span class="reto-title">Reto del mes</span><span class="reto-prize">👕 Tshirt Rollen</span></div><div class="reto-progress-track"><div class="reto-progress-fill" id="reto-fill"></div></div><div style="display:flex;justify-content:space-between;align-items:center;"><div><span style="font-size:22px;font-weight:700;" id="reto-count">0</span><span style="font-size:13px;color:var(--rs-grey);"> / 20 visitas este mes</span></div><div class="reto-complete" id="reto-complete">¡Meta alcanzada! 🎉</div></div></div>
-      <div class="card"><div class="discount-header"><span class="discount-title">Mis descuentos</span></div><div class="discount-levels" id="discount-levels"></div></div>
+      <div class="card"><div style="font-size:11px;letter-spacing:2px;color:var(--rs-grey);text-transform:uppercase;margin-bottom:12px;">Mis descuentos</div><div class="discount-levels" id="discount-levels"></div></div>
       <div class="card" id="p-progress-section"><div class="progress-header"><span class="progress-title">Próximo nivel</span><span class="progress-next" id="p-progress-next"></span></div><div class="progress-track"><div class="progress-fill" id="p-progress-fill"></div></div><div class="progress-sub" id="p-progress-sub"></div></div>
       <div class="card"><div class="rewards-title">Niveles de recompensa</div>
-        <div class="reward-row" id="rr-20"><div class="rr-visits">20</div><div class="rr-info"><div class="rr-disc">10% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-20"></span></div>
-        <div class="reward-row" id="rr-50"><div class="rr-visits">50</div><div class="rr-info"><div class="rr-disc">15% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-50"></span></div>
-        <div class="reward-row" id="rr-100"><div class="rr-visits">100</div><div class="rr-info"><div class="rr-disc">20% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-100"></span></div>
+        <div class="reward-row" id="rr-20"><div class="rr-visits">20</div><div style="flex:1"><div class="rr-disc">10% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-20"></span></div>
+        <div class="reward-row" id="rr-50"><div class="rr-visits">50</div><div style="flex:1"><div class="rr-disc">15% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-50"></span></div>
+        <div class="reward-row" id="rr-100"><div class="rr-visits">100</div><div style="flex:1"><div class="rr-disc">20% de descuento</div><div class="rr-sub">En paquetes y reservas</div></div><span class="rr-status" id="rs-100"></span></div>
       </div>
       <div class="card"><div class="history-title">Últimas visitas</div><div id="p-history"></div></div>
     </div>
@@ -258,82 +182,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 let activeClient = null;
-let currentSlide = 0;
-let slideInterval = null;
-const TOTAL_SLIDES = 5;
-
-function getStreak(history){
-  if(!history||!history.length)return 0;
-  const days=[...new Set(history)].sort((a,b)=>b.localeCompare(a));
-  const today=new Date();today.setHours(0,0,0,0);
-  let streak=0;
-  for(let i=0;i<days.length;i++){const d=new Date(days[i]);d.setHours(0,0,0,0);const diff=Math.round((today-d)/86400000);if(diff===i)streak++;else break;}
-  return streak;
-}
-
-function buildSlideContent(clients){
-  const medals=['🥇','🥈','🥉'];
-  const posClass=['top1','top2','top3'];
-  // Ranking visits
-  const top7=[...clients].sort((a,b)=>(b.points||0)-(a.points||0)).slice(0,7);
-  document.getElementById('ranking-visits').innerHTML=top7.map((c,i)=>{
-    const streak=getStreak(c.history||[]);
-    return`<div class="ranking-item ${posClass[i]||''}"><div class="rank-pos">${medals[i]||i+1}</div><div class="rank-name">${c.name}</div>${streak>1?`<span class="rank-streak">${streak}🔥</span>`:''}<div class="rank-pts">${c.points||0} vis.</div></div>`;
-  }).join('');
-  // Reto
-  const now=new Date();
-  function getMV(h){if(!h)return 0;return h.filter(d=>{const dt=new Date(d);return dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear();}).length;}
-  const monthVisitors=[...clients].map(c=>({c,mv:getMV(c.history)})).filter(x=>x.mv>0).sort((a,b)=>b.mv-a.mv);
-  const topMV=monthVisitors[0]?.mv||0;
-  const totalMV=clients.reduce((a,c)=>a+getMV(c.history),0);
-  document.getElementById('reto-slide-fill').style.width=Math.min(100,Math.round((topMV/20)*100))+'%';
-  document.getElementById('reto-slide-sub').textContent=totalMV+' visitas totales del estudio este mes';
-  document.getElementById('reto-slide-leaders').innerHTML=monthVisitors.slice(0,4).map((x,i)=>`<div class="reto-leader"><span>${medals[i]||'·'}</span><span style="flex:1">${x.c.name}</span><span style="color:var(--rs-blue);font-weight:600">${x.mv}/20</span></div>`).join('');
-  // Streaks
-  const streakRanking=[...clients].map(c=>({c,streak:getStreak(c.history||[])})).filter(x=>x.streak>0).sort((a,b)=>b.streak-a.streak).slice(0,7);
-  document.getElementById('ranking-streaks').innerHTML=streakRanking.length?streakRanking.map((x,i)=>`<div class="ranking-item ${posClass[i]||''}"><div class="rank-pos">${medals[i]||i+1}</div><div class="rank-name">${x.c.name}</div><div class="rank-pts" style="color:#ff6b35">${x.streak} días 🔥</div></div>`).join(''):'<div style="font-size:13px;color:var(--rs-grey);padding:8px 0;text-align:center">Empieza tu racha hoy</div>';
-  // Birthdays
-  function isBday(c){if(!c.birthday)return false;const t=new Date();const[,bm,bd]=c.birthday.split('-');return parseInt(bm)===(t.getMonth()+1)&&parseInt(bd)===t.getDate();}
-  const bdayToday=clients.filter(c=>isBday(c));
-  const slide4=document.getElementById('slide-4');
-  if(bdayToday.length){document.getElementById('bday-slide-names').textContent=bdayToday.map(c=>c.name).join(' y ');slide4.style.display='block';}else{slide4.style.display='none';}
-  // Dots
-  const numSlides=bdayToday.length?TOTAL_SLIDES:TOTAL_SLIDES-1;
-  document.getElementById('slide-dots').innerHTML=Array.from({length:numSlides},(_,i)=>`<div class="slide-dot${i===0?' active':''}" onclick="goToSlide(${i})"></div>`).join('');
-}
-
-function goToSlide(n){
-  document.querySelectorAll('.slide').forEach((s,i)=>{s.classList.toggle('active',i===n);if(i===n&&s.style.display==='none'){}});
-  document.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===n));
-  currentSlide=n;
-}
-
-function startSlideShow(clients){
-  if(slideInterval)clearInterval(slideInterval);
-  buildSlideContent(clients||[]);
-  const numSlides=document.getElementById('slide-4').style.display==='none'?TOTAL_SLIDES-1:TOTAL_SLIDES;
-  slideInterval=setInterval(()=>goToSlide((currentSlide+1)%numSlides),4500);
-}
-
-function stopSlideShow(){if(slideInterval){clearInterval(slideInterval);slideInterval=null;}}
-
-function launchCelebration(points){
-  const overlay=document.getElementById('celebration-overlay');
-  const reward=points>=100?'20%':points>=50?'15%':points>=20?'10%':null;
-  let emoji='🎉',msg='¡+1 punto! Total: '+points;
-  if(points===20||points===50||points===100){emoji='🏆';msg='¡Nuevo nivel! '+reward+' de descuento desbloqueado';}
-  else if(points%10===0){emoji='🎯';msg='¡'+points+' visitas! Sigue asi';}
-  const colors=['#2D45EA','#ffd700','#ff6b35','#4dff88','#ffffff','#7c3aed'];
-  let html='';
-  for(let i=0;i<45;i++){const c=colors[Math.floor(Math.random()*colors.length)];const size=6+Math.random()*8;const left=Math.random()*100;const dur=1.5+Math.random()*2;const delay=Math.random()*0.6;const br=Math.random()>0.5?'50%':'2px';html+=`<div style="position:absolute;width:${size}px;height:${size}px;border-radius:${br};background:${c};left:${left}%;animation:fall ${dur}s ${delay}s linear forwards"></div>`;}
-  html+=`<div class="celebration-text"><span class="cel-emoji">${emoji}</span><div class="cel-msg">${msg}</div></div>`;
-  overlay.innerHTML=html;
-  overlay.classList.add('show');
-  setTimeout(()=>{overlay.classList.remove('show');overlay.innerHTML='';},3200);
-}
-
 
 function fullName(c){return c.lastname?c.name+' '+c.lastname:c.name;}
 function getReward(p){if(p>=100)return'20%';if(p>=50)return'15%';if(p>=20)return'10%';return null;}
@@ -341,33 +190,12 @@ function progressPct(p){if(p>=100)return 100;if(p>=50)return Math.round(((p-50)/
 function getNextInfo(p){if(p<20)return{next:20,label:'10% descuento',remaining:20-p};if(p<50)return{next:50,label:'15% descuento',remaining:50-p};if(p<100)return{next:100,label:'20% descuento',remaining:100-p};return null;}
 function formatDate(d){if(!d)return'—';try{const[y,m,day]=d.split('-');const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return day+' '+months[parseInt(m)-1]+' '+y;}catch(e){return d;}}
 function isBirthday(c){if(!c.birthday)return false;const today=new Date();const[,bm,bd]=c.birthday.split('-');return parseInt(bm)===(today.getMonth()+1)&&parseInt(bd)===today.getDate();}
-function getStreak(history){
-  if(!history||!history.length)return 0;
-  const days=[...new Set(history)].sort((a,b)=>b.localeCompare(a));
-  if(!days.length)return 0;
-  const today=new Date();today.setHours(0,0,0,0);
-  let streak=0;
-  for(let i=0;i<days.length;i++){const d=new Date(days[i]);d.setHours(0,0,0,0);const diff=Math.round((today-d)/86400000);if(diff===i)streak++;else break;}
-  return streak;
-}
-function getMonthVisits(history){
-  if(!history)return 0;
-  const now=new Date();
-  return history.filter(d=>{const dt=new Date(d);return dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear();}).length;
-}
-function getMotivation(c){
-  const p=c.points,streak=getStreak(c.history||[]);
-  if(isBirthday(c))return{text:'Hoy es tu dia especial! Gracias por ser parte de Rollen Studio.',sub:'El equipo te celebra'};
-  if(streak>=10)return{text:'Eres una maquina! '+streak+' dias seguidos sin parar.',sub:'La consistencia es tu superpoder'};
-  if(streak>=3)return{text:'Llevas '+streak+' dias seguidos. Sigue asi!',sub:'La rutina construye resultados'};
-  if(p>=50)return{text:'Eres de nuestros clientes mas dedicados.',sub:p+' visitas hablan por si solas'};
-  if(p>=20)return{text:'Ya desbloqueaste tu primer descuento. Sigue acumulando!',sub:'El siguiente nivel esta a tu alcance'};
-  if(p>=10)return{text:'Vas muy bien, '+c.name+'. '+(20-p)+' visitas mas para tu primer descuento!',sub:'Cada clase cuenta'};
-  return{text:'Bienvenido a Rollen Studio, '+c.name+'!',sub:'Cada visita te acerca a un beneficio'};
-}
+function getStreak(history){if(!history||!history.length)return 0;const days=[...new Set(history)].sort((a,b)=>b.localeCompare(a));const today=new Date();today.setHours(0,0,0,0);let streak=0;for(let i=0;i<days.length;i++){const d=new Date(days[i]);d.setHours(0,0,0,0);const diff=Math.round((today-d)/86400000);if(diff===i)streak++;else break;}return streak;}
+function getMonthVisits(history){if(!history)return 0;const now=new Date();return history.filter(d=>{const dt=new Date(d);return dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear();}).length;}
+function getMotivation(c){const p=c.points||0,streak=getStreak(c.history||[]);if(isBirthday(c))return{text:'Hoy es tu dia especial! Gracias por ser parte de Rollen.',sub:'El equipo te celebra'};if(streak>=10)return{text:'Eres una maquina! '+streak+' dias seguidos.',sub:'La consistencia es tu superpoder'};if(streak>=3)return{text:'Llevas '+streak+' dias seguidos. Sigue asi!',sub:'La rutina construye resultados'};if(p>=50)return{text:'Eres de nuestros clientes mas dedicados.',sub:p+' visitas hablan por si solas'};if(p>=20)return{text:'Ya desbloqueaste tu primer descuento!',sub:'El siguiente nivel esta a tu alcance'};return{text:'Bienvenido a Rollen Studio, '+c.name+'!',sub:'Cada visita te acerca a un beneficio'};}
 function generateCode(){return Math.floor(100000+Math.random()*900000).toString();}
 
-async function doLookup(){
+window.doLookup = async function(){
   const val=document.getElementById('idle-input').value.trim();
   const err=document.getElementById('idle-error');
   const loading=document.getElementById('loading-msg');
@@ -375,15 +203,13 @@ async function doLookup(){
   if(!val)return;
   loading.style.display='block';
   try{
-    const docRef=doc(db,'clients',val);
-    const docSnap=await getDoc(docRef);
+    const docSnap=await getDoc(doc(db,'clients',val));
     loading.style.display='none';
     if(!docSnap.exists()){err.style.display='block';return;}
     activeClient={id:val,...docSnap.data()};
-    stopSlideShow();
     showProfile(activeClient,true);
   }catch(e){loading.style.display='none';err.textContent='Error al conectar. Intenta de nuevo.';err.style.display='block';}
-}
+};
 
 function showProfile(client,showCheckin){
   document.getElementById('screen-idle').classList.remove('active');
@@ -397,84 +223,65 @@ function showProfile(client,showCheckin){
   document.getElementById('motive-text').textContent=m.text;
   document.getElementById('motive-sub').textContent=m.sub;
   const reward=getReward(client.points||0);
-  const rb=document.getElementById('p-reward-block');
-  rb.innerHTML=reward?'<div class="reward-disc">'+reward+'</div><div class="reward-label">descuento activo</div>':'<div class="no-reward-lbl">Sin descuento<br>aun</div>';
+  document.getElementById('p-reward-block').innerHTML=reward?'<div class="reward-disc">'+reward+'</div><div class="reward-label">descuento activo</div>':'<div class="no-reward-lbl">Sin descuento<br>aun</div>';
   const streak=getStreak(client.history||[]);
   document.getElementById('streak-num').textContent=streak+'🔥';
   document.getElementById('streak-msg').textContent=streak>=1?'Llevas '+streak+' dia'+(streak!==1?'s':'')+' consecutivos!':'Ven hoy para empezar tu racha';
-  const dotsEl=document.getElementById('streak-dots');
-  const now=new Date();
-  const dayNames=['L','M','X','J','V','S','D'];
-  const histSet=new Set((client.history||[]));
-  let dotsHTML='';
-  for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];const isToday=i===0;const done=histSet.has(ds);dotsHTML+='<div class="streak-dot'+(done?' done':isToday?' current':'')+'">'+dayNames[d.getDay()===0?6:d.getDay()-1]+'</div>';}
-  dotsEl.innerHTML=dotsHTML;
+  const now=new Date();const dayNames=['L','M','X','J','V','S','D'];const histSet=new Set(client.history||[]);
+  let dotsHTML='';for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];const isToday=i===0;const done=histSet.has(ds);dotsHTML+='<div class="streak-dot'+(done?' done':isToday?' current':'')+'">'+dayNames[d.getDay()===0?6:d.getDay()-1]+'</div>';}
+  document.getElementById('streak-dots').innerHTML=dotsHTML;
   const monthVisits=getMonthVisits(client.history||[]);
-  const retoPct=Math.min(100,Math.round((monthVisits/20)*100));
-  document.getElementById('reto-fill').style.width=retoPct+'%';
+  document.getElementById('reto-fill').style.width=Math.min(100,Math.round((monthVisits/20)*100))+'%';
   document.getElementById('reto-count').textContent=monthVisits;
   monthVisits>=20?document.getElementById('reto-complete').classList.add('show'):document.getElementById('reto-complete').classList.remove('show');
-  const discLevels=[{pct:'10%',visits:20,label:'10% de descuento'},{pct:'15%',visits:50,label:'15% de descuento'},{pct:'20%',visits:100,label:'20% de descuento'}];
-  const discContainer=document.getElementById('discount-levels');
   if(!client.discountsUsed)client.discountsUsed={};
-  discContainer.innerHTML=discLevels.map(dl=>{
-    const earned=(client.points||0)>=dl.visits;
-    const used=client.discountsUsed&&client.discountsUsed[dl.pct];
-    let actionHTML='';
-    if(!earned){actionHTML='<span class="lock-badge">'+(dl.visits-(client.points||0))+' mas</span>';}
-    else if(used){actionHTML='<div style="text-align:right"><div class="used-badge">USADO</div><div style="font-size:10px;color:var(--rs-grey);">'+used+'</div></div>';}
-    else{actionHTML='<button class="use-btn" onclick="useDiscount(\''+dl.pct+'\',\''+dl.label+'\')">Usar</button>';}
-    return'<div class="discount-level '+(earned?'earned':'locked')+'"><div class="dl-info"><div class="dl-pct">'+dl.pct+'</div><div class="dl-visits">'+dl.label+'</div></div>'+actionHTML+'</div>';
+  document.getElementById('discount-levels').innerHTML=[{pct:'10%',visits:20,label:'10% de descuento'},{pct:'15%',visits:50,label:'15% de descuento'},{pct:'20%',visits:100,label:'20% de descuento'}].map(dl=>{
+    const earned=(client.points||0)>=dl.visits;const used=client.discountsUsed[dl.pct];
+    let a='';
+    if(!earned)a='<span class="lock-badge">'+(dl.visits-(client.points||0))+' mas</span>';
+    else if(used)a='<div style="text-align:right"><div class="used-badge">USADO</div><div style="font-size:10px;color:var(--rs-grey);">'+used+'</div></div>';
+    else a='<button class="use-btn" onclick="window.useDiscount(\''+dl.pct+'\',\''+dl.label+'\')">Usar</button>';
+    return'<div class="discount-level '+(earned?'earned':'locked')+'"><div style="display:flex;align-items:center;gap:10px"><div class="dl-pct">'+dl.pct+'</div><div class="dl-visits">'+dl.label+'</div></div>'+a+'</div>';
   }).join('');
   const next=getNextInfo(client.points||0);
   const ps=document.getElementById('p-progress-section');
   if(next){ps.style.display='block';document.getElementById('p-progress-next').textContent=next.label;document.getElementById('p-progress-fill').style.width=progressPct(client.points||0)+'%';document.getElementById('p-progress-sub').textContent='Faltan '+next.remaining+' visita'+(next.remaining!==1?'s':'')+' para tu proximo nivel';}else{ps.style.display='none';}
   [20,50,100].forEach(t=>{const row=document.getElementById('rr-'+t),badge=document.getElementById('rs-'+t);if((client.points||0)>=t){row.classList.add('earned');badge.className='rr-status status-earned';badge.textContent='Activo';}else{row.classList.remove('earned');badge.className='rr-status status-locked';badge.textContent='Bloqueado';}});
-  const hist=document.getElementById('p-history');
   const visits=client.history||[];
-  hist.innerHTML=visits.length?[...visits].sort((a,b)=>b.localeCompare(a)).slice(0,6).map(d=>'<div class="history-item"><span class="history-date">'+formatDate(d)+'</span><span class="history-pts">+1 punto</span></div>').join(''):'<div style="font-size:13px;color:#A5A5A5;padding:8px 0;">Sin visitas registradas aun</div>';
+  document.getElementById('p-history').innerHTML=visits.length?[...visits].sort((a,b)=>b.localeCompare(a)).slice(0,6).map(d=>'<div class="history-item"><span class="history-date">'+formatDate(d)+'</span><span class="history-pts">+1 punto</span></div>').join(''):'<div style="font-size:13px;color:#A5A5A5;padding:8px 0;">Sin visitas registradas aun</div>';
   document.getElementById('code-display').classList.remove('show');
   const confirmEl=document.getElementById('checkin-confirm');
   const successEl=document.getElementById('success-banner');
   successEl.classList.remove('show');
-  if(showCheckin){
-    const today=new Date().toISOString().split('T')[0];
-    const alreadyToday=(client.history||[]).includes(today);
-    if(alreadyToday){confirmEl.classList.remove('show');successEl.textContent='Ya registraste tu visita hoy. Gracias por venir!';successEl.classList.add('show');}
-    else{confirmEl.classList.add('show');}
-  }else{confirmEl.classList.remove('show');}
+  if(showCheckin){const today=new Date().toISOString().split('T')[0];const alreadyToday=(client.history||[]).includes(today);if(alreadyToday){confirmEl.classList.remove('show');successEl.textContent='Ya registraste tu visita hoy. Gracias por venir!';successEl.classList.add('show');}else{confirmEl.classList.add('show');}}else{confirmEl.classList.remove('show');}
 }
 
-async function confirmCheckin(){
+window.confirmCheckin = async function(){
   if(!activeClient)return;
   const today=new Date().toISOString().split('T')[0];
+  const prev=activeClient.points||0;
   try{
-    const docRef=doc(db,'clients',activeClient.id);
-    await updateDoc(docRef,{points:(activeClient.points||0)+1,lastVisit:today,history:arrayUnion(today)});
-    activeClient.points=(activeClient.points||0)+1;
-    activeClient.lastVisit=today;
+    await updateDoc(doc(db,'clients',activeClient.id),{points:prev+1,lastVisit:today,history:arrayUnion(today)});
+    activeClient.points=prev+1;activeClient.lastVisit=today;
     if(!activeClient.history)activeClient.history=[];
     if(!activeClient.history.includes(today))activeClient.history.push(today);
     document.getElementById('checkin-confirm').classList.remove('show');
     const sb=document.getElementById('success-banner');
-    sb.textContent='Visita registrada. Ahora tienes '+activeClient.points+' punto'+(activeClient.points!==1?'s':'')+'. Gracias!';
+    sb.textContent='✓ Visita registrada. Ahora tienes '+activeClient.points+' punto'+(activeClient.points!==1?'s':'')+'. ¡Gracias!';
     sb.classList.add('show');
-    launchCelebration(activeClient.points);
     showProfile(activeClient,false);
-    setTimeout(goBack,6000);
+    setTimeout(()=>window.goBack(),6000);
   }catch(e){alert('Error al guardar. Intenta de nuevo.');}
-}
+};
 
-window.useDiscount=async function(pct,label){
+window.useDiscount = async function(pct,label){
   if(!activeClient)return;
   const code=generateCode();
   const today=new Date().toLocaleDateString('es-MX');
-  const discountsUsed=activeClient.discountsUsed||{};
-  discountsUsed[pct]=code+' · '+today;
+  if(!activeClient.discountsUsed)activeClient.discountsUsed={};
+  activeClient.discountsUsed[pct]=code+' · '+today;
   try{
-    const docRef=doc(db,'clients',activeClient.id);
-    await updateDoc(docRef,{discountsUsed});
-    activeClient.discountsUsed=discountsUsed;
+    await updateDoc(doc(db,'clients',activeClient.id),{discountsUsed:activeClient.discountsUsed});
     document.getElementById('code-number').textContent=code;
     document.getElementById('code-discount-label').textContent=label+' — presenta en recepcion';
     document.getElementById('code-display').classList.add('show');
@@ -482,26 +289,14 @@ window.useDiscount=async function(pct,label){
   }catch(e){alert('Error al generar codigo.');}
 };
 
-window.confirmCheckin=confirmCheckin;
-
-function goBack(){
+window.goBack = function(){
   activeClient=null;
   document.getElementById('code-display').classList.remove('show');
   document.getElementById('screen-profile').classList.remove('active');
   document.getElementById('screen-idle').classList.add('active');
   document.getElementById('idle-input').value='';
   document.getElementById('idle-error').style.display='none';
-  currentSlide=0;
-  // Reload all clients for fresh rankings
-  getDocs(collection(db,'clients')).then(snap=>{
-    const allClients=snap.docs.map(d=>({id:d.id,...d.data()}));
-    startSlideShow(allClients);
-  }).catch(()=>startSlideShow([]));
-}
-window.goBack=goBack;
-window.doLookup=doLookup;
+};
 </script>
-
-<div class="celebration-overlay" id="celebration-overlay"></div>
 </body>
 </html>
