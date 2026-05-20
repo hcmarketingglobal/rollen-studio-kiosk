@@ -218,7 +218,7 @@ onAuthStateChanged(auth, (user) => {
   } else if (user) {
     // Wrong account
     auth.signOut();
-    document.getElementById('login-error').textContent = 'Correo no autorizado. Usa luis@hcmarketing.mx o admin@rollen.mx';
+    document.getElementById('login-error').textContent = 'Acceso no autorizado.';
     document.getElementById('login-error').style.display = 'block';
   } else {
     document.getElementById('screen-idle').classList.remove('active');
