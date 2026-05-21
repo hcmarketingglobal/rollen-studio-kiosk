@@ -117,6 +117,17 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--rs-black);color:var
 .google-btn:hover{background:#f0f0f0}
 .login-error{font-size:12px;color:#ff4f4f;margin-top:14px;display:none}
 .login-bg{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,69,234,0.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+
+.celebration-overlay{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;display:none}
+.celebration-overlay.show{display:block}
+.confetti-piece{position:absolute;animation:fall linear forwards}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.celebration-text{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:1000;display:none;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+.celebration-text.show{display:block}
+@keyframes popIn{from{transform:translate(-50%,-50%) scale(0.5);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.celebration-emoji{font-size:72px;display:block;margin-bottom:8px}
+.celebration-msg{font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,0.6)}
+.celebration-pts{font-size:15px;color:rgba(255,255,255,0.85);margin-top:8px}
 </style>
 </head>
 <body>
@@ -308,6 +319,54 @@ function showProfile(client,showCheckin){
   if(showCheckin){const today=new Date().toISOString().split('T')[0];const alreadyToday=(client.history||[]).includes(today);if(alreadyToday){confirmEl.classList.remove('show');successEl.textContent='Ya registraste tu visita hoy. Gracias por venir!';successEl.classList.add('show');}else{confirmEl.classList.add('show');}}else{confirmEl.classList.remove('show');}
 }
 
+
+function triggerCelebration(name, points, isNewLevel, isStreak){
+  const overlay=document.getElementById('celebration-overlay');
+  overlay.innerHTML='';overlay.classList.add('show');
+
+  if(isStreak){
+    // Rain of fire emojis
+    for(let i=0;i<40;i++){
+      const piece=document.createElement('div');
+      piece.style.cssText=`position:absolute;font-size:${20+Math.random()*24}px;left:${Math.random()*100}%;top:${-10-Math.random()*10}px;animation:fall linear forwards;animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*0.8}s`;
+      piece.textContent='🔥';
+      overlay.appendChild(piece);
+    }
+    document.getElementById('celebration-emoji').textContent='🔥';
+    document.getElementById('celebration-msg').textContent='¡Racha activada!';
+    document.getElementById('celebration-pts').textContent=name+' · 3 días seguidos';
+  } else if(isNewLevel){
+    // Confetti for new level
+    const colors=['#2D45EA','#ffd700','#4dff88','#ff4f4f','#a855f7','#ffffff','#ff6b35'];
+    for(let i=0;i<80;i++){
+      const piece=document.createElement('div');
+      piece.className='confetti-piece';
+      piece.style.cssText=`left:${Math.random()*100}%;top:${-10-Math.random()*10}px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*10}px;height:${6+Math.random()*10}px;border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*0.5}s`;
+      overlay.appendChild(piece);
+    }
+    const emoji=points>=100?'🏆':points>=50?'🔥':'⭐';
+    const disc=points>=100?'20% off':points>=50?'15% off':'10% off';
+    document.getElementById('celebration-emoji').textContent=emoji;
+    document.getElementById('celebration-msg').textContent='¡Descuento desbloqueado!';
+    document.getElementById('celebration-pts').textContent=disc+' en paquetes y reservas';
+  } else {
+    // Normal check-in — simple confetti
+    const colors=['#2D45EA','#ff6b35','#ffd700','#4dff88','#ffffff'];
+    for(let i=0;i<50;i++){
+      const piece=document.createElement('div');
+      piece.className='confetti-piece';
+      piece.style.cssText=`left:${Math.random()*100}%;top:${-10-Math.random()*10}px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*0.5}s`;
+      overlay.appendChild(piece);
+    }
+    document.getElementById('celebration-emoji').textContent='✅';
+    document.getElementById('celebration-msg').textContent='¡Visita registrada!';
+    document.getElementById('celebration-pts').textContent=name+' · '+points+' punto'+(points!==1?'s':'')+' en total';
+  }
+
+  const ct=document.getElementById('celebration-text');ct.classList.add('show');
+  setTimeout(()=>{overlay.classList.remove('show');ct.classList.remove('show');overlay.innerHTML='';},3500);
+}
+
 window.confirmCheckin = async function(){
   if(!activeClient)return;
   const today=new Date().toISOString().split('T')[0];
@@ -318,6 +377,10 @@ window.confirmCheckin = async function(){
     if(!activeClient.history)activeClient.history=[];
     if(!activeClient.history.includes(today))activeClient.history.push(today);
     document.getElementById('checkin-confirm').classList.remove('show');
+    const isNewLevel=[20,50,100].includes(activeClient.points);
+    const streak=getStreak(activeClient.history||[]);
+    const isStreak=!isNewLevel&&streak===3;
+    triggerCelebration(activeClient.name, activeClient.points, isNewLevel, isStreak);
     const sb=document.getElementById('success-banner');
     sb.textContent='✓ Visita registrada. Ahora tienes '+activeClient.points+' punto'+(activeClient.points!==1?'s':'')+'. ¡Gracias!';
     sb.classList.add('show');
@@ -350,5 +413,12 @@ window.goBack = function(){
   document.getElementById('idle-error').style.display='none';
 };
 </script>
+
+<div class="celebration-overlay" id="celebration-overlay"></div>
+<div class="celebration-text" id="celebration-text">
+  <span class="celebration-emoji" id="celebration-emoji">🎉</span>
+  <div class="celebration-msg" id="celebration-msg">¡Visita registrada!</div>
+  <div class="celebration-pts" id="celebration-pts"></div>
+</div>
 </body>
 </html>
