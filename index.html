@@ -253,7 +253,26 @@ function progressPct(p){if(p>=100)return 100;if(p>=50)return Math.round(((p-50)/
 function getNextInfo(p){if(p<20)return{next:20,label:'10% descuento',remaining:20-p};if(p<50)return{next:50,label:'15% descuento',remaining:50-p};if(p<100)return{next:100,label:'20% descuento',remaining:100-p};return null;}
 function formatDate(d){if(!d)return'—';try{const[y,m,day]=d.split('-');const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return day+' '+months[parseInt(m)-1]+' '+y;}catch(e){return d;}}
 function isBirthday(c){if(!c.birthday)return false;const today=new Date();const[,bm,bd]=c.birthday.split('-');return parseInt(bm)===(today.getMonth()+1)&&parseInt(bd)===today.getDate();}
-function getStreak(history){if(!history||!history.length)return 0;const days=[...new Set(history)].sort((a,b)=>b.localeCompare(a));const today=new Date();today.setHours(0,0,0,0);let streak=0;for(let i=0;i<days.length;i++){const d=new Date(days[i]);d.setHours(0,0,0,0);const diff=Math.round((today-d)/86400000);if(diff===i)streak++;else break;}return streak;}
+function getStreak(history){
+  if(!history||!history.length)return 0;
+  // Get unique dates sorted descending
+  const days=[...new Set(history)].sort((a,b)=>b.localeCompare(a));
+  if(!days.length)return 0;
+  const today=new Date();today.setHours(0,0,0,0);
+  // Allow streak if most recent visit was today or yesterday
+  const mostRecent=new Date(days[0]);mostRecent.setHours(0,0,0,0);
+  const diffFromToday=Math.round((today-mostRecent)/86400000);
+  if(diffFromToday>1)return 0; // streak broken
+  let streak=1;
+  for(let i=1;i<days.length;i++){
+    const prev=new Date(days[i-1]);prev.setHours(0,0,0,0);
+    const curr=new Date(days[i]);curr.setHours(0,0,0,0);
+    const diff=Math.round((prev-curr)/86400000);
+    if(diff===1)streak++;
+    else break;
+  }
+  return streak;
+}
 function getMonthVisits(history){if(!history)return 0;const now=new Date();return history.filter(d=>{const dt=new Date(d);return dt.getMonth()===now.getMonth()&&dt.getFullYear()===now.getFullYear();}).length;}
 function getMotivation(c){const p=c.points||0,streak=getStreak(c.history||[]);if(isBirthday(c))return{text:'Hoy es tu dia especial! Gracias por ser parte de Rollen.',sub:'El equipo te celebra'};if(streak>=10)return{text:'Eres una maquina! '+streak+' dias seguidos.',sub:'La consistencia es tu superpoder'};if(streak>=3)return{text:'Llevas '+streak+' dias seguidos. Sigue asi!',sub:'La rutina construye resultados'};if(p>=50)return{text:'Eres de nuestros clientes mas dedicados.',sub:p+' visitas hablan por si solas'};if(p>=20)return{text:'Ya desbloqueaste tu primer descuento!',sub:'El siguiente nivel esta a tu alcance'};return{text:'Bienvenido a Rollen Studio, '+c.name+'!',sub:'Cada visita te acerca a un beneficio'};}
 function generateCode(){return Math.floor(100000+Math.random()*900000).toString();}
@@ -316,7 +335,23 @@ function showProfile(client,showCheckin){
   const confirmEl=document.getElementById('checkin-confirm');
   const successEl=document.getElementById('success-banner');
   successEl.classList.remove('show');
-  if(showCheckin){const today=new Date().toISOString().split('T')[0];const alreadyToday=(client.history||[]).includes(today);if(alreadyToday){confirmEl.classList.remove('show');successEl.textContent='Ya registraste tu visita hoy. Gracias por venir!';successEl.classList.add('show');}else{confirmEl.classList.add('show');}}else{confirmEl.classList.remove('show');}
+  if(showCheckin){
+    const now=new Date();
+    const sixHoursAgo=new Date(now.getTime()-6*60*60*1000);
+    const recentVisit=(client.history||[]).some(d=>{
+      // history stores dates as YYYY-MM-DD, check if any visit was within last 6 hours
+      // We also store lastVisitTimestamp for precise time tracking
+      return false; // handled by lastVisitTimestamp below
+    });
+    const lastTs=client.lastVisitTimestamp;
+    const tooSoon=lastTs&&(now.getTime()-lastTs)<6*60*60*1000;
+    if(tooSoon){
+      const hoursLeft=Math.ceil((6*60*60*1000-(now.getTime()-lastTs))/3600000);
+      confirmEl.classList.remove('show');
+      successEl.textContent='Ya registraste tu visita recientemente. Puedes volver a hacer check-in en '+hoursLeft+' hora'+(hoursLeft!==1?'s':'')+'.';
+      successEl.classList.add('show');
+    }else{confirmEl.classList.add('show');}
+  }else{confirmEl.classList.remove('show');}
 }
 
 
@@ -372,14 +407,15 @@ window.confirmCheckin = async function(){
   const today=new Date().toISOString().split('T')[0];
   const prev=activeClient.points||0;
   try{
-    await updateDoc(doc(db,'clients',activeClient.id),{points:prev+1,lastVisit:today,history:arrayUnion(today)});
-    activeClient.points=prev+1;activeClient.lastVisit=today;
+    const nowTs=new Date().getTime();
+    await updateDoc(doc(db,'clients',activeClient.id),{points:prev+1,lastVisit:today,lastVisitTimestamp:nowTs,history:arrayUnion(today)});
+    activeClient.points=prev+1;activeClient.lastVisit=today;activeClient.lastVisitTimestamp=nowTs;
     if(!activeClient.history)activeClient.history=[];
     if(!activeClient.history.includes(today))activeClient.history.push(today);
     document.getElementById('checkin-confirm').classList.remove('show');
     const isNewLevel=[20,50,100].includes(activeClient.points);
     const streak=getStreak(activeClient.history||[]);
-    const isStreak=!isNewLevel&&streak===3;
+    const isStreak=!isNewLevel&&streak>=3;
     triggerCelebration(activeClient.name, activeClient.points, isNewLevel, isStreak);
     const sb=document.getElementById('success-banner');
     sb.textContent='✓ Visita registrada. Ahora tienes '+activeClient.points+' punto'+(activeClient.points!==1?'s':'')+'. ¡Gracias!';
